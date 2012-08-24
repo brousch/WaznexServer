@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BarCampGR Session Grid</title>
+        <meta name="viewport" content = "width=320">
+        <meta http-equiv="refresh" content="120;URL='/'" />
+        <link rel="shortcut icon" href="{{ url_for('favicon', filename='favicon.ico') }}">
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="/static/js/main.js" type="text/javascript" />
+    </head>
+    <body >
+        <h1>BarCampGR Session Grid</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% if grid %}
+                <div class="grid-image-div">
+                    {% if grid.level == 0 %}
+                        <a href="/image/{{ grid.filename }}">
+                            <img class="grid-image" src="/thumbnail/{{ grid.filename }}" />
+                        </a>
+                    {% elif grid.level == 1 %}
+                        <div class="cell-row">
+                        {% set row_num = 0 %}
+                        {% for cell in grid.cells %}
+                            {% if cell.row > row_num %}
+                                </div><div class="cell-row">
+                                {% set row_num = cell.row %}
+                            {% endif %}
+                            <a href="/colview/{{ grid.id }}/{{ cell.col }}">
+                                <img width={{ grid.cell_width }} class="cell" src="/sliced/{{ grid.id }}/{{ cell.filename }}">
+                            </a>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="image-date">
+                        {{ grid.upload_dt.strftime(pretty_dt_format) }}
+                    </div>
+                    <div class="size-form-wrapper">
+                        <form action="/mark_bad/" method="POST">
+                            
+                            <a href="/image/{{ grid.filename }}">
+                                <div class="view-size">Large</div>
+                            </a> 
+                            <a href="/medium/{{ grid.filename }}">
+                                <div class="view-size">Medium</div>
+                            </a>
+                            <a href="/diagnostic/{{ grid.id }}">
+                                <div class="view-diagnostic">D</div>
+                            </a>
+                            <input type="hidden" name="image_id" value="{{ grid.id }}" />
+                            <div class="mark-bad">
+                                <input type="submit" name="mark_bad" class="report-bad-image" value="X" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        	{% else %}
+            	<div>Image unavailable.</div>
+            {% endif %}
+        	<div class="upload-form-wrapper">
+            	<form action="/upload/" method="POST" enctype="multipart/form-data">
+                	<h2>Upload New Grid Image</h2>
+                	<input type="file" name="file">
+                	<input type="submit" name="submit" value="Submit">
+            	</form>
+        	</div>
+    </body>
+</html>

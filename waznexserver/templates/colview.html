@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BarCampGR Session Grid</title>
+        <meta name="viewport" content = "width=320">
+        <link rel="shortcut icon" href="{{ url_for('favicon', filename='favicon.ico') }}">
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="/static/js/main.js" type="text/javascript" />
+    </head>
+    <body >
+        <h1>BarCampGR Session Grid</h1>
+        <div class="cells">
+            {% set row_num = 0 %}
+            {% for cell in cell_list %}
+                {% if cell.row > row_num %}
+                    </div><div class="cells">
+                    {% set row_num = cell.row %}
+                {% endif %}
+                <a href="/sliced/{{ cell.fk_grid_item }}/{{ cell.filename }}">
+                    <img width={{ cell_width }} class="cell" src="/sliced/{{ cell.fk_grid_item }}/{{ cell.filename }}">
+                </a>
+            {% endfor %}
+            </div>
+        </div>
+
+    </body>
+</html>

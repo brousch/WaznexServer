@@ -1,0 +1,21 @@
+<VirtualHost *>
+    ServerName example.com
+
+    Alias /robots.txt /usr/local/www/documents/robots.txt
+    Alias /favicon.ico /usr/local/www/documents/favicon.ico
+
+    Alias /static/ /home/ubuntu/WaznexServer/waznex_server/static/
+    Alias /images/ /home/ubuntu/WaznexServer/data/images/
+    Alias /downsized/ /home/ubuntu/WaznexServer/data/downsized/
+    Alias /thumbnails/ /home/ubuntu/WaznexServer/data/thumbnails
+
+    WSGIDaemonProcess waznex_server user=ubuntu group=ubuntu threads=5
+    WSGIScriptAlias / /home/ubuntu/WaznexServer/waznex_server/waznex_server.wsgi
+
+    <Directory /home/ubuntu/WaznexServer/waznex_server>
+        WSGIProcessGroup waznex_server
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>

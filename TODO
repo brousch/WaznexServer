@@ -1,0 +1,12 @@
+Update docs to reflect Version 0.3
+
+Create view bad images page
+
+Data Maintenance and creation scripts:
+    Create and initialize DB
+    Create folder structure
+    Re-initialize DB based on images on disk
+    Delete photos on disk
+    Re-create downsized and thumbnails images
+    
+    

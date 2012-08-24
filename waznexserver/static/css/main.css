@@ -1,0 +1,174 @@
+body {
+    background: #EEEEEE;
+    border: 0;
+    color: #111111;
+    font-family: sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    width: 320px;
+}
+
+h1 {
+    border: 0;
+    font-size:1.5em;
+    margin: 0 auto;
+    padding: 5px 0 5px 0;
+    text-align: center;
+}
+
+h2 {
+    border: 0;
+    font-size: 1.25em;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}
+
+div.upload-fail {
+    background-color: #FFDDDD;
+    border: 1px solid #111111;
+    height: auto;
+    margin: 8px 0 8px 0;
+    padding: 4px 0 4px 0;
+    text-align: center;
+    width: 100%;
+}
+
+div.upload-success {
+    background-color: #DDFFDD;
+    border: 1px solid #111111;
+    height: auto;
+    margin: 8px 0 8px 0;
+    padding: 4px 0 4px 0;
+    text-align: center;
+    width: 100%;
+}
+
+div.removed-bad {
+    background-color: #FFFFDD;
+    border: 1px solid #111111;
+    height: auto;
+    margin: 8px 0 8px 0;
+    padding: 4px 0 4px 0;
+    text-align: center;
+    width: 100%;
+}
+
+div.grid-image-div {
+    border: 1px solid #111111;
+    height: auto;
+    margin: 8px 0 8px 0;
+    padding: 0;
+    text-align: center;
+    width: 320px;
+}
+
+img.grid-image {
+    border: 0;
+    height: auto;
+    margin: 0;
+    padding: 2px;
+    width: 316px;
+}
+
+div.cell-row {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+div.cells a, div.cell-row a {
+    text-decoration: none;
+}
+
+img.cell {
+    border: 0;
+    display: inline-block;
+    margin: -2px;
+    padding: 0;
+    text-decoration: none;
+}
+
+div.image-date {
+    display: block;
+    text-align: center;
+    width: 100%
+}
+
+form {
+    border: 0;
+    display: block;
+    margin: 0 auto;
+    padding: 2px;
+    text-align: center;
+    width: 100%;
+}
+
+div.size-form-wrapper {
+    height: 40px;
+    width: 100%;
+}
+
+div.view-size {
+    background-color: #BBFFBB;
+    border: 2px solid #88BB88;
+    color: #222222;
+    display: inline-block;
+    float: left;
+    font-size: 1.1em;
+    height: 20px;
+    margin: 1%;
+    padding: 3px;
+    width: 30%;
+}
+
+div.view-diagnostic {
+    background-color: #FFB90F;
+    border: 2px solid #8B6508;
+    color: #222222;
+    display: inline-block;
+    float: left;
+    font-size: 1.1em;
+    height: 20px;
+    margin: 1%;
+    padding: 3px;
+    width: 9%;
+}
+
+div.mark-bad {
+    background-color: #FF6666;
+    border: 2px solid #BB2222;
+    cursor: pointer;
+    cursor: hand;
+    display: inline-block;
+    height: 20px;
+    float: left;
+    margin: 1%;
+    padding: 3px;
+    width: 9%;
+}
+
+input.report-bad-image {
+    background-color: #FF6666;
+    border: 0px;
+    cursor: pointer;
+    cursor: hand;
+    text-color: #FFFFFF;
+}
+
+input.report-bad-image:hover {
+    cursor: pointer;
+    cursor: hand;
+}
+
+#upload-form-wrapper {
+    background-color: #DDDDDD;
+    border: 0;
+    margin: 4px 0 4px 0;
+    padding: 2px;
+    width: 100%;
+}
+
+
+
