@@ -52,7 +52,8 @@ def index():
            order_by(desc('upload_dt')).\
            first()
     app.logger.info(grid)
-    if grid.level == models.IMAGELEVEL_GRID:
+    if grid is not None and \
+       grid.level == models.IMAGELEVEL_GRID:
         cell_list = db.session.query(models.GridCell).\
                     filter_by(fk_grid_item=grid.id).\
                     order_by('row').order_by('col').all()

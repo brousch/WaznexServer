@@ -6,7 +6,7 @@ clean_all: clean_venv clean_data
 
 .PHONY: create_venv
 create_venv:
-	virtualenv -p python2.5 venv
+	virtualenv -p python2.7 venv
 
 .PHONY: clean_venv
 clean_venv:

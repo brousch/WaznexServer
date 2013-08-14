@@ -1,12 +1,9 @@
-Rough instructions for installing on Ubuntu 12.04 64bit
+Rough instructions for installing on Ubuntu 12.04 32bit
 
 1. Install the deadsnakes repository
-2. sudo apt-get install python2.5 python2.5-dev python-virtualenv libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
-3. ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
-4. ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
-5. ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
+2. sudo apt-get install python2.7 python2.7-dev python-virtualenv libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
 6. mkdir WaznexServer
 7. cd WaznexServer
-8. virtualenv -p python2.5 venv
+8. virtualenv -p python2.7 venv
 9. git clone https://github.com/brousch/WaznexServer.git
 10. pip install -r requirements.txt
