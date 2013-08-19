@@ -137,9 +137,10 @@ def upload_file():
             grid_item.status = models.IMAGESTATUS_NEW
             db.session.commit()
             app.logger.info('Adding image: ' + filename)
-            flash('Upload successful.', "upload-success")
+            flash('Upload successful.', "message-upload-success")
         else:
-            flash('Upload failed - invalid file extension.', "upload-fail")
+            flash('Upload failed - invalid file extension.', 
+                  "message-upload-fail")
     return redirect(url_for('index'))
 
 def allowed_file(filename):
@@ -148,16 +149,18 @@ def allowed_file(filename):
         ext = filename.rsplit('.', 1)[1]
     return ext in app.config['ALLOWED_EXTENSIONS']
 
-@app.route('/mark_bad/', methods=['GET', 'POST'])
-def mark_bad():
-    if request.method == 'POST':
-        bad_image = request.form['image_id']
+@app.route('/mark_bad/<int:grid_item_id>', methods=['GET'])
+def mark_bad(grid_item_id):
+    try:
         bgi = db.session.query(models.GridItem).\
-              filter_by(id=bad_image).first()
+              filter_by(id=grid_item_id).first()
         db.session.add(bgi)
         bgi.status = models.IMAGESTATUS_BAD
         db.session.commit()
-        flash("Marked an image as bad and removed it.", "removed-bad")
+        flash("Marked an image as bad and removed it.", "message-removed-bad")
+    except:
+        # Invalid grid_item_id. Ignore it.
+        pass
     return redirect(url_for('index'))
     
 

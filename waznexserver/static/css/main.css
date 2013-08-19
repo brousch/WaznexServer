@@ -1,80 +1,75 @@
 body {
-    background: #EEEEEE;
-    border: 0;
-    color: #111111;
+    background-color: rgba(16,14,15,1);
+    background-image: url("/static/images/dark_wood.png");
+    color: rgba(239,241,240,1);
     font-family: sans-serif;
-    margin: 0 auto;
-    padding: 0;
-    width: 320px;
+    font-size: medium;
+    font-weight: normal;
+    line-height: 1.1em;
+    margin: 0 auto 0 auto;
 }
 
 h1 {
-    border: 0;
+    background: rgba(255,255,255,0.1);
+    border-bottom: solid 3px black;
     font-size:1.5em;
-    margin: 0 auto;
-    padding: 5px 0 5px 0;
+    margin: 0 auto 0.25em auto;
+    padding: 0.25em 0 0.25em 0;
     text-align: center;
+}
+
+a.title {
+    color: rgba(239,241,240,1);
 }
 
 h2 {
-    border: 0;
-    font-size: 1.25em;
-    margin: 0 auto;
-    padding: 0;
+    font-size: 1.1em;
+    margin: 0 auto 0 auto;
+    padding: 0.25em 0 0.25em 0;
     text-align: center;
 }
 
-div.upload-fail {
+a:link, a:visited, a:hover, a:active {
+    text-decoration: none;
+}
+
+div.messages {
+    margin: 0 0 0.25em 0;
+}
+
+div.message-upload-fail, div.message-upload-success, div.message-removed-bad {
+    border: 2px solid black;
+    color: rgba(14,16,15,1);
+    font-weight: bold;
+    margin: 0 0 0.1em 0;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    text-align: center;
+    width: 100%;
+}
+ 
+div.message-upload-fail {
     background-color: #FFDDDD;
-    border: 1px solid #111111;
-    height: auto;
-    margin: 8px 0 8px 0;
-    padding: 4px 0 4px 0;
-    text-align: center;
-    width: 100%;
 }
 
-div.upload-success {
+div.message-upload-success {
     background-color: #DDFFDD;
-    border: 1px solid #111111;
-    height: auto;
-    margin: 8px 0 8px 0;
-    padding: 4px 0 4px 0;
-    text-align: center;
-    width: 100%;
 }
 
-div.removed-bad {
+div.message-removed-bad {
     background-color: #FFFFDD;
-    border: 1px solid #111111;
-    height: auto;
-    margin: 8px 0 8px 0;
-    padding: 4px 0 4px 0;
-    text-align: center;
-    width: 100%;
 }
 
 div.grid-image-div {
-    border: 1px solid #111111;
-    height: auto;
-    margin: 8px 0 8px 0;
-    padding: 0;
+    margin: 0.25em 0 0.25em 0;
     text-align: center;
-    width: 320px;
 }
 
 img.grid-image {
-    border: 0;
     height: auto;
-    margin: 0;
-    padding: 2px;
     width: 316px;
 }
 
 div.cell-row {
-    border: 0;
-    margin: 0;
-    padding: 0;
     width: 100%;
 }
 
@@ -83,92 +78,109 @@ div.cells a, div.cell-row a {
 }
 
 img.cell {
-    border: 0;
     display: inline-block;
     margin: -2px;
-    padding: 0;
     text-decoration: none;
+}
+
+img.cell:hover {
+    border: solid 1px black;
+    margin: -3px;
+    -webkit-transform: scale(1.5);
+    -moz-transform:    scale(1.5);
+    -ms-transform:     scale(1.5);
+    -o-transform:      scale(1.5);
+    transform:         scale(1.5);
+}
+
+div.cells {
+    margin: 0 auto 0 auto;
+    text-align: center;
 }
 
 div.image-date {
     display: block;
+    margin: 0.25em 0 0.25em 0;
     text-align: center;
     width: 100%
 }
 
-form {
-    border: 0;
+div.button-wrapper {
+    background: rgba(255,255,255,0.1);
+    border: solid black 1px;
     display: block;
-    margin: 0 auto;
-    padding: 2px;
+    margin: 0.1em auto 0.1em auto;
+    padding: 0.25em 0 0.25em 0;    
     text-align: center;
     width: 100%;
 }
 
-div.size-form-wrapper {
-    height: 40px;
+form {
+    display: block;
+    text-align: center;
     width: 100%;
 }
 
-div.view-size {
+div.button-like {
+    color: rgba(16,14,15,1);
+    display: inline-block;
+    font-weight: bold;
+    padding: 0.25em 1em 0.25em 1em;
+    text-decoration: none;
+}
+
+div.btn-view-size {
     background-color: #BBFFBB;
     border: 2px solid #88BB88;
-    color: #222222;
-    display: inline-block;
-    float: left;
-    font-size: 1.1em;
-    height: 20px;
-    margin: 1%;
-    padding: 3px;
-    width: 30%;
 }
 
-div.view-diagnostic {
+div.btn-view-diagnostic {
     background-color: #FFB90F;
     border: 2px solid #8B6508;
-    color: #222222;
-    display: inline-block;
-    float: left;
-    font-size: 1.1em;
-    height: 20px;
-    margin: 1%;
-    padding: 3px;
-    width: 9%;
 }
 
-div.mark-bad {
+div.btn-mark-bad {
     background-color: #FF6666;
     border: 2px solid #BB2222;
-    cursor: pointer;
-    cursor: hand;
-    display: inline-block;
-    height: 20px;
-    float: left;
-    margin: 1%;
-    padding: 3px;
-    width: 9%;
 }
 
-input.report-bad-image {
-    background-color: #FF6666;
-    border: 0px;
-    cursor: pointer;
-    cursor: hand;
-    text-color: #FFFFFF;
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 660px) and (min-height: 540px) {
+    h1 {
+        font-size: 1.75em;
+        padding: 0.4em 0 0.4em 0;
+    }
+    h2 {
+       font-size: 1.2em;
+    }
+    div.grid-image-div {
+        zoom: 200%;
+    }
+    div.button-like {
+        font-size: 1.1em;
+        margin: 0 0.25em 0 0.25em;
+        padding: 0.3em 1.4em 0.3em 1.4em;
+    }
+    button, input {
+        font-size: 1em;
+        font-weight: bold;
+    }
 }
 
-input.report-bad-image:hover {
-    cursor: pointer;
-    cursor: hand;
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 980px) and (min-height: 740px) {
+    div.grid-image-div {
+        zoom: 300%;
+    }
 }
 
-#upload-form-wrapper {
-    background-color: #DDDDDD;
-    border: 0;
-    margin: 4px 0 4px 0;
-    padding: 2px;
-    width: 100%;
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1300px) and (min-height: 935px) {
+    div.grid-image-div {
+        zoom: 400%;
+    }
 }
 
-
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1681px) and (min-height: 1140px) { 
+    div.grid-image-div {
+        zoom: 500%;
+    }
+}
 

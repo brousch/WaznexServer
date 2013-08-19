@@ -373,7 +373,7 @@ if(__name__ == "__main__"):
     numSlices = 0
     for y in range(0, len(squares)):
         for x in range(0, len(squares[y])):
-            squares[y][x].save(outputDir + sep + "out-" + str(x) + "-" + str(y) + ".png")
+            squares[y][x].save(outputDir + sep + "out-" + str(x) + "-" + str(y) + ".jpg")
             numSlices = numSlices + 1
     
     # Save out a debugging image

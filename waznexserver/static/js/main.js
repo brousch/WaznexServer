@@ -1,10 +1,16 @@
-function adjustRatio(img) {
-    if(window.innerHeight < img.height) {
-        img.style.height = '100%';
-        img.style.width = 'auto';
+$(document).ready(function() {
+    if ($('#message-wrapper').length > 0) {
+        setTimeout(function() {
+            $('#message-wrapper').fadeOut('slow');
+        }, 10000);
     }
-    else if(window.innerWidth < img.width) {
-        img.style.width = '100%';
-        img.style.height = 'auto';
+
+    $("#lnk-mark-bad").click(confirm_delete);
+});
+
+function confirm_delete(event) {
+    var r = confirm("Are you sure you want to delete this session grid?");
+    if (r!=true) {
+        event.preventDefault();
     }
 }
