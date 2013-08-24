@@ -15,4 +15,4 @@ function confirm_delete(event) {
     }
 }
 
-function Cycle() { if(typeof this.currentCell == "undefined") { this.currentCell = 0; } var allCells = document.getElementsByClassName("cell"); for(var c = 0; c < allCells.length; ++c) { allCells[c].style.WebkitTransform = (this.currentCell == c ? "scale(2)" : null); } ++this.currentCell; if(this.currentCell >= allCells.length) { this.currentCell = 0; } } setInterval(Cycle, 2500);
+function Cycle() { if(typeof this.currentCell == "undefined") { this.currentCell = 0; } var allCells = document.getElementsByClassName("cell"); for(var c = 0; c < allCells.length; ++c) { var transform = (this.currentCell == c ? "scale(2)" : null); allCells[c].style.WebkitTransform = transform; allCells[c].style.MozTransform = transform; } ++this.currentCell; if(this.currentCell >= allCells.length) { this.currentCell = 0; } } setInterval(Cycle, 2000);
