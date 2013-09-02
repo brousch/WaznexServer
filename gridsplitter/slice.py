@@ -198,7 +198,7 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
             quad = [dots[index] for index in quadIndices]
             
             # Found a box - crop it out of the original
-            squares.append(imageOriginal.transform(outputSize, Image.QUAD, (quad[0][0], quad[0][1], quad[1][0], quad[1][1], quad[2][0], quad[2][1], quad[3][0], quad[3][1]), Image.BICUBIC))
+            squares.append(ImageOps.autocontrast(imageOriginal.transform(outputSize, Image.QUAD, (quad[0][0], quad[0][1], quad[1][0], quad[1][1], quad[2][0], quad[2][1], quad[3][0], quad[3][1]), Image.BICUBIC), 2))
             colNum = colNum + 1
             
             # See if we're drawing an output grid for debugging

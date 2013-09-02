@@ -144,7 +144,7 @@ div.btn-mark-bad {
     border: 2px solid #BB2222;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 660px) and (min-height: 540px) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 660px) and (min-height: 540px) {
     h1 {
         font-size: 1.75em;
         padding: 0.4em 0 0.4em 0;
@@ -166,19 +166,19 @@ div.btn-mark-bad {
     }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 980px) and (min-height: 740px) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 980px) and (min-height: 740px) {
     div.grid-image-div {
         zoom: 300%;
     }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1300px) and (min-height: 935px) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 1300px) and (min-height: 935px) {
     div.grid-image-div {
         zoom: 400%;
     }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1681px) and (min-height: 1140px) { 
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 1681px) and (min-height: 1140px) { 
     div.grid-image-div {
         zoom: 500%;
     }
