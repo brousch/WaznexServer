@@ -17,8 +17,8 @@
                     </div><div class="cells">
                     {% set row_num = cell.row %}
                 {% endif %}
-                <a href="/sliced/{{ cell.fk_grid_item }}/{{ cell.filename }}">
-                    <img width={{ cell_width }} class="cell" src="/sliced/{{ cell.fk_grid_item }}/{{ cell.filename }}">
+                <a href="/sliced/{{ cell.grid_item.get_split_rel_path() }}/{{ cell.filename }}">
+                    <img width={{ cell_width }} class="cell" src="/sliced/{{ cell.grid_item.get_split_rel_path() }}/{{ cell.filename }}">
                 </a>
             {% endfor %}
             </div>

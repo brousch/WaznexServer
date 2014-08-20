@@ -2,5 +2,4 @@
 NUM_WORKERS=8
 SERVER_PORT=127.0.0.1:8000
 cd /opt/WaznexServer/
-source ./venv/bin/activate
-exec ./venv/bin/gunicorn -w $NUM_WORKERS -b $SERVER_PORT waznexserver.waznexserver:app
+exec /usr/bin/gunicorn -w $NUM_WORKERS -b $SERVER_PORT waznexserver.waznexserver:app

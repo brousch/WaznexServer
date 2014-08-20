@@ -92,11 +92,17 @@ class GridItem(db.Model):
         fn = ''.join(fn_parts[:-1])
         return os.path.join(app.config['SPLIT_FOLDER'], fn)
         
+    def get_split_rel_path(self):
+        fn_parts = self.filename.split('.')
+        return fn_parts[-2]
+
+
 class GridCell(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fk_grid_item = db.Column(db.Integer, 
                              db.ForeignKey('grid_item.id'), 
                              index=True)
+    grid_item = db.relationship("GridItem")
     filename = db.Column(db.Unicode(16))
     col = db.Column(db.Integer)
     row = db.Column(db.Integer)
