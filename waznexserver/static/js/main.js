@@ -15,4 +15,3 @@ function confirm_delete(event) {
     }
 }
 
-function Cycle() { /*if(location.href.indexOf("Cycle") < 0) { return; }*/  if(typeof this.currentCell == "undefined") { this.currentCell = 0; } var allCells = document.getElementsByClassName("cell"); for(var c = 0; c < allCells.length; ++c) { var transform = (this.currentCell == c ? "scale(4)" : null); allCells[c].style.WebkitTransform = transform; allCells[c].style.MozTransform = transform; } ++this.currentCell; if(this.currentCell >= allCells.length) { this.currentCell = 0; } } setInterval(Cycle, 2000);
