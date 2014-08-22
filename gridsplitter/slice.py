@@ -45,7 +45,7 @@ channel = 2
 # The size of the search space - smaller is faster and less accurate
 searchSize = (160, 160)
 # [0...100] Percentage each pixel has to match the desired color to be considered a match
-colorThreshold = 40
+colorThreshold = 20
 # Each square is saved as this size
 outputSize = (320, 207)
 
@@ -285,9 +285,11 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
             
             # Interpolate middle dots based on the edges
             for row, leftDot in enumerate(leftRowDots[1:-1]):
-                # Generate a row-wide vector
-                rightDot = rightRowDots[row + 1]
-                rowVec = (dots[rightDot][0] - dots[leftDot][0], dots[rightDot][1] - dots[leftDot][1])
+                try:# Generate a row-wide vector
+                    rightDot = rightRowDots[row + 1]
+                    rowVec = (dots[rightDot][0] - dots[leftDot][0], dots[rightDot][1] - dots[leftDot][1])
+                except:
+                    print("rightRowDots: {}".format(rightRowDots))
                 
                 for col, topDot in enumerate(topColumnDots[1:-1]):
                     # Generate a column-wide vector
