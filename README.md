@@ -8,19 +8,26 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Version 0.4 (current stable) ##
 
+- Added Vagrant for easier development
+
 ## Version 0.3 ##
 
-Newer versions of Flask and dependencies. Diagnostic image link between sizes and mark bad. Mark bad button.
+- Newer versions of Flask and dependencies.
+- Diagnostic image link between sizes and mark bad.
+- Mark bad button.
 
 ## Version 0.2 ##
 
-It now has a database backend using SQLAlchemy instead of the thread-unsafe global list. This has only been tested with Sqlite so far. You can now control how many images are shown on the main page - it's no longer hard-coded to 3.
+- It now has a database backend using SQLAlchemy instead of the thread-unsafe global list. This has only been tested with Sqlite so far.
+- You can now control how many images are shown on the main page - it's no longer hard-coded to 3.
 
 ## Version 0.1 ##
 
 ### Capabilities ###
 
-Version 0.1 includes the bare essentials of a working server. It can accept file uploads and will display the three most recent uploads using the mobile web theme. It generates two additional sized versions of each photo: a downsized version with maximum size of 1024x1024 pixels, and a thumbnail version with a maximum size of 316x316 pixels. The downsized version is useful for viewing on mobile platforms that limit download size (WebOS).  The thumbnail version is sized to fit the mobile theme width.
+- Version 0.1 includes the bare essentials of a working server.
+- It can accept file uploads and will display the three most recent uploads using the mobile web theme.
+- It generates two additional sized versions of each photo: a downsized version with maximum size of 1024x1024 pixels, and a thumbnail version with a maximum size of 316x316 pixels. The downsized version is useful for viewing on mobile platforms that limit download size (WebOS).  The thumbnail version is sized to fit the mobile theme width.
 
 ### Tested on ###
 
@@ -48,7 +55,10 @@ Version 0.1 includes the bare essentials of a working server. It can accept file
 
 ### Configuration ###
 
-Modify the image, downsized, and thumbnail paths found near the top of `main.py` to reflect your file system. Modify the `templates/index.html` file to change the page title. Modify the `static/css/main.css` file to change the style.  Also be sure to disable debugging in a live deployment.
+- Modify the image, downsized, and thumbnail paths found near the top of `main.py` to reflect your file system.
+- Modify the `templates/index.html` file to change the page title.
+- Modify the `static/css/main.css` file to change the style.
+- Also be sure to disable debugging in a live deployment.
 
 ### Running ###
 
