@@ -79,7 +79,7 @@ div.cells a, div.cell-row a {
 
 img.cell {
     display: inline-block;
-    margin: -2px;
+    margin: 0 -2px;
     text-decoration: none;
 }
 
