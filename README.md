@@ -52,6 +52,7 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 4. git clone https://github.com/brousch/WaznexServer.git
 5. cd WaznexServer
 6. make create_venv
+7. make init
 
 ### Configuration ###
 
@@ -64,10 +65,10 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 #### Development ####
 1. cd /opt/waznexserver/Waznexserver
-2. make init
-3. make run
+2. make run
 
 #### Production ####
+
 
 ## Roadmap ##
 

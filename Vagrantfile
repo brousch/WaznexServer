@@ -71,5 +71,6 @@ Vagrant.configure(2) do |config|
     mkdir /opt/waznexserver
     ln -s /vagrant /opt/waznexserver/WaznexServer
     cd /opt/waznexserver/WaznexServer; make create_venv
+    cd /opt/waznexserver/WaznexServer; make init
   SHELL
 end
