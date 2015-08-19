@@ -63,8 +63,9 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 ### Running ###
 
 #### Development ####
-7. cd /opt/waznexserver/Waznexserver
-8. make run
+1. cd /opt/waznexserver/Waznexserver
+2. make init
+3. make run
 
 #### Production ####
 

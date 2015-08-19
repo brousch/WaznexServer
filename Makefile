@@ -17,6 +17,10 @@ create_venv:
 	virtualenv -p python2.7 $(VIRTUALENV)
 	$(PIP) install -r requirements.txt
 
+.PHONY: init
+init:
+	$(PYTHON) waznexserver/utils.py
+
 .PHONY: clean_venv
 clean_venv:
 	rm -rf ../env || true

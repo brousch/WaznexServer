@@ -3,6 +3,8 @@
 
 
 import os
+import sys
+
 from waznexserver import db
 import models
 import config
@@ -42,23 +44,3 @@ if __name__ == '__main__':
         db.session.add(l)
         
     db.session.commit()
-
-
-#def reload_grid_list_from_disk():
-#    # Get list of files from IMAGE_FOLDER and sort by "date" (filename)
-#    image_list = os.listdir(app.config['IMAGE_FOLDER'])
-#    app.logger.info('Restoring image list from: ' + app.config['IMAGE_FOLDER'])
-#    image_list.sort()
-#    # Add each image to the grid_list
-#    for image in image_list:
-#        try:
-#            ts_str = image.partition('F')[0]
-#            ts = datetime.strptime(ts_str, app.config['DATE_TIME_FORMAT'])
-#            grid_item = GridItem(ts, image)
-#            grid_item.is_initialized = True
-#            grid_list.append(grid_item)
-#            app.logger.info('Restored image: ' + image + 
-#                            'with timestamp' + ts)
-#        except:
-#            app.logger.info('Skipped file: ' + image)
-#            pass # Skip files with invalid name format

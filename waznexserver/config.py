@@ -2,7 +2,7 @@
 import os
 
 # Configuration
-DATA_FOLDER = '/opt/WaznexServer/waznexserver/data'
+DATA_FOLDER = '/opt/waznexserver/WaznexServer/waznexserver/data'
 DEBUG = True
 TESTING = True
 HOST = '0.0.0.0'
@@ -19,8 +19,8 @@ ALLOWED_EXTENSIONS = set(['png',  'PNG',
 FILE_NAME_DT_FORMAT = '%Y-%m-%dT%H:%M:%S'
 PRETTY_DT_FORMAT = '%m/%d/%Y %I:%M:%S %p'
 ENABLE_GRIDSPLITTER = True
-GRIDSPLITTER_PYTHON = "/opt/WaznexServer/env/bin/python"
-GRIDSPLITTER_SLICER = "/opt/WaznexServer/waznexserver/gridsplitter/slice.py"
+GRIDSPLITTER_PYTHON = "/opt/waznexserver/env/bin/python"
+GRIDSPLITTER_SLICER = "/opt/wznexserver/WaznexServer/waznexserver/gridsplitter/slice.py"
 SPLIT_FOLDER = os.path.join(DATA_FOLDER, 'sliced')
 GRIDSPLITTER_CELL_PREFIX = 'out-'
 GRIDSPLITTER_COLOR = '2' # 0:red, 1:green or 2:blue
