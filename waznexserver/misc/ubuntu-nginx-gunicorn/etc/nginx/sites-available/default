@@ -21,25 +21,25 @@ server {
     }
 
     location /static {
-        alias /opt/WaznexServer/waznexserver/static/;
+        alias /opt/waznexserver/WaznexServer/waznexserver/static/;
         autoindex on;
     }
 
     location /thumbnail {
-        alias /opt/WaznexServer/data/thumbnails/;
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/thumbnails/;
     }
     location /medium {
-        alias /opt/WaznexServer/data/downsized/;
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/downsized/;
     }
     location /image {
-        alias /opt/WaznexServer/data/images/;
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/images/;
     }
-#    location /diagnostic {
-#        alias /opt/WaznexServer/data/diagnostic/;
-#    }
-#    location /sliced {
-#        alias /opt/WaznexServer/data/sliced/;
-#    }
+    location /diagnostic {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/diagnostic/;
+    }
+    location /sliced {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/sliced/;
+    }
 }
 
 

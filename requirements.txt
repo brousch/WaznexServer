@@ -6,6 +6,7 @@ Pillow>=2.1.0
 SQLAlchemy==0.8.2
 Werkzeug==0.9.3
 argparse==1.2.1
+gunicorn==19.3.0
 itsdangerous==0.23
 requests==1.2.3
 wsgiref==0.1.2

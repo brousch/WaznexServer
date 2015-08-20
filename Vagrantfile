@@ -66,11 +66,12 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install -y nginx python-dev python-virtualenv libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp5 libwebp-dev zlib1g-dev
     mkdir /opt/waznexserver
     ln -s /vagrant /opt/waznexserver/WaznexServer
-    cd /opt/waznexserver/WaznexServer; make create_venv
-    cd /opt/waznexserver/WaznexServer; make init
+    cd /opt/waznexserver/WaznexServer
+    make install_system_requirements
+    make bootstrap_modern_python_tools
+    make create_venv
+    make init_data
   SHELL
 end

@@ -9,6 +9,8 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 ## Version 0.4 (current stable) ##
 
 - Added Vagrant for easier development
+- Much improved Makefile for easier development and production installation
+- Usable documentation
 
 ## Version 0.3 ##
 
@@ -39,24 +41,27 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 1. Install Vagrant and a provider (VirtualBox)
 2. Install git
-3. git clone https://github.com/brousch/WaznexServer.git
-4. cd WaznexServer
-5. vagrant up
-6. vagrant ssh
+3. `git clone https://github.com/brousch/WaznexServer.git`
+4. `cd WaznexServer`
+5. `vagrant up`
+6. `vagrant ssh`
 
 #### Production on Ubuntu 14.04 64bit ####
 
-1. sudo apt-get install -y git nginx python-dev python-virtualenv libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp5 libwebp-dev zlib1g-dev
-2. mkdir /opt/waznexserver
-3. cd /opt/waznexserver
-4. git clone https://github.com/brousch/WaznexServer.git
-5. cd WaznexServer
-6. make create_venv
-7. make init
+1. `sudo apt-get install -y git`
+2. `mkdir /opt/waznexserver`
+3. `cd /opt/waznexserver`
+4. `git clone https://github.com/brousch/WaznexServer.git`
+5. `cd WaznexServer`
+6. `make install_system_requirements`
+7. `make bootstrap_modern_python_tools`
+8. `make create_venv`
+9. `make init_data`
+10. `make init_production`
 
 ### Configuration ###
 
-- Modify the image, downsized, and thumbnail paths found near the top of `main.py` to reflect your file system.
+- Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
 - Modify the `templates/index.html` file to change the page title.
 - Modify the `static/css/main.css` file to change the style.
 - Also be sure to disable debugging in a live deployment.
@@ -64,11 +69,16 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 ### Running ###
 
 #### Development ####
-1. cd /opt/waznexserver/Waznexserver
-2. make run
+
+1. `vagrant ssh`
+2. `cd /opt/waznexserver/Waznexserver`
+3. `make run`
 
 #### Production ####
 
+1. SSH to server as root
+2. `cd /opt/waznexserver/WaznexServer`
+3. `make run_production`
 
 ## Roadmap ##
 
