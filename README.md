@@ -48,16 +48,17 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 #### Production on Ubuntu 14.04 64bit ####
 
-1. `sudo apt-get install -y git`
-2. `mkdir /opt/waznexserver`
-3. `cd /opt/waznexserver`
-4. `git clone https://github.com/brousch/WaznexServer.git`
-5. `cd WaznexServer`
-6. `make install_system_requirements`
-7. `make bootstrap_modern_python_tools`
-8. `make create_venv`
-9. `make init_data`
-10. `make init_production`
+1. SSH to server as root
+2. `sudo apt-get install -y git`
+3. `mkdir /opt/waznexserver`
+4. `cd /opt/waznexserver`
+5. `git clone https://github.com/brousch/WaznexServer.git`
+6. `cd WaznexServer`
+7. `make install_system_requirements`
+8. `make bootstrap_modern_python_tools`
+9. `make create_venv`
+10. `make init_data`
+11. `make init_production`
 
 ### Configuration ###
 
@@ -83,4 +84,13 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 ## Roadmap ##
 
 - Better documentation
-- Also see TODO
+- Create view bad images page
+- Data Maintenance and creation scripts:
+  - Re-initialize DB based on images on disk
+  - Delete photos on disk
+  - Re-create downsized and thumbnails images
+- Remove excessive hard-coded paths
+  - /opt/waznexserver/WaznexServer
+  - Python code
+  - nginx config
+- Automate production deployment    
