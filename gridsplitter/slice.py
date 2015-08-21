@@ -45,7 +45,7 @@ channel = 2
 # The size of the search space - smaller is faster and less accurate
 searchSize = (160, 160)
 # [0...100] Percentage each pixel has to match the desired color to be considered a match
-colorThreshold = 20
+colorThreshold = 40
 # Each square is saved as this size
 outputSize = (320, 207)
 
