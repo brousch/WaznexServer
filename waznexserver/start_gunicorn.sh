@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 NUM_WORKERS=8
 SERVER_PORT=127.0.0.1:8000
