@@ -7,7 +7,7 @@ PROJECT := $(BASE)/WaznexServer
 
 
 .PHONY: clean_data
-clean: clean_data_thumbnails clean_data_downsized clean_data_images clean_data_sliced clean_data_db
+clean_data: clean_data_thumbnails clean_data_downsized clean_data_images clean_data_sliced clean_data_db
 
 .PHONY: clean_all
 clean_all: clean_venv clean_data
@@ -44,23 +44,23 @@ clean_venv:
 
 .PHONY: clean_data_thumbnails
 clean_data_thumbnails:
-	rm -rf data/thumbnails/*.* || true
+	rm -rf waznexserver/data/thumbnails/*.* || true
 
 .PHONY: clean_data_downsized
 clean_data_downsized:
-	rm -rf data/downsized/*.* || true
+	rm -rf waznexserver/data/downsized/*.* || true
 
 .PHONY: clean_data_images
 clean_data_images:
-	rm -rf data/images/*.* || true
+	rm -rf waznexserver/data/images/*.* || true
 
 .PHONY: clean_data_sliced
 clean_data_sliced:
-	rm -rf data/sliced/* || true
+	rm -rf waznexserver/data/sliced/* || true
 
 .PHONY: clean_data_db
 clean_data_db:
-	rm data/*.sqlite || true
+	rm waznexserver/data/*.db || true
 
 .PHONY: run
 run:

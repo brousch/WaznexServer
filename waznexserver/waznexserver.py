@@ -3,7 +3,6 @@
 
 
 import os
-#import time
 import datetime
 import config
 from flask import Flask
@@ -12,7 +11,6 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import send_from_directory
-#from flask import session
 from flask import url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
@@ -111,9 +109,11 @@ def upload_file():
         if f and allowed_file(f.filename):
             # Name and save file to IMAGE folder
             upload_ts = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+            filename_name, filename_ext = os.path.splitext(f.filename)
+            clean_filename = filename_name.replace('.', '') + filename_ext
             filename = ('%sF%s') %\
                        (upload_ts.strftime(app.config['FILE_NAME_DT_FORMAT']),
-                        secure_filename(f.filename))
+                        secure_filename(clean_filename))
             f.save(os.path.join(app.config['IMAGE_FOLDER'], filename))
             # Initialize GridItem and add it to the list
             grid_item = models.GridItem(upload_ts, filename)
