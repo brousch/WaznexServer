@@ -83,6 +83,10 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Roadmap ##
 
+- Tests
+- Ajax refreshing of the grid
+- Change slicer from running on a cronjob to pulling off a queue (ZeroMQ
+  or whatnot)
 - Better documentation
 - Create view bad images page
 - Data Maintenance and creation scripts:

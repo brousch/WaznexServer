@@ -50,9 +50,9 @@ def index():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico',
-                               mimetype='image/vnd.microsoft.icon')
+    filename = request.args.get('filename', 'favicon.ico')
+    return send_from_directory(os.path.join(app.root_path, 'static', 'favicon'),
+                               filename)
 
 @app.route('/thumbnail/<filename>')
 def show_thumbnail(filename):
