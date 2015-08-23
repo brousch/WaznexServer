@@ -2,7 +2,15 @@
 
 *An Online BarCamp Session Grid Viewer*
 
-Waznex Server (What's Next?) is a web application server designed for BarCamp Grand Rapids, but which should be useful for other BarCamps or conferences with a rapidly-changing physical session grid. Its purpose is to host an online version of the meatspace presentation session grid. Essentially, attendees upload a photo of the session grid to the WaznexServer instance, and the server shows the three most recently uploaded photos. This allows attendees to see what's going on in upcoming sessions without going out to the lobby.
+Waznex Server (What's Next?) is a web application server designed for BarCamp Grand Rapids, but which should be useful for other BarCamps or conferences with a rapidly-changing physical session grid. Its purpose is to host an online version of the meatspace presentation session grid. Essentially, attendees upload a photo of the session grid to the WaznexServer instance:
+
+![photo](assets/photo.jpg)
+
+and the server converts this into an interactive grid:
+
+![grid](assets/grid.png)
+
+This allows attendees to see what's going on in upcoming sessions without going out to the lobby.
 
 Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 14.04 Digital Ocean 1GB instance.
 
