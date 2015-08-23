@@ -91,18 +91,6 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Roadmap ##
 
-- Tests
-- Ajax refreshing of the grid
-- Change slicer from running on a cronjob to pulling off a queue (ZeroMQ
-  or whatnot)
-- Better documentation
-- Create view bad images page
-- Data Maintenance and creation scripts:
-  - Re-initialize DB based on images on disk
-  - Delete photos on disk
-  - Re-create downsized and thumbnails images
-- Remove excessive hard-coded paths
-  - /opt/waznexserver/WaznexServer
-  - Python code
-  - nginx config
-- Automate production deployment    
+- View all images in a historic visualization (Issue #3)
+- Remove hard-coded paths (Issue #7)
+- Tests! (Issue #11)
