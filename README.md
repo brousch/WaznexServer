@@ -91,6 +91,11 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Roadmap ##
 
-- View all images in a historic visualization (Issue #3)
-- Remove hard-coded paths (Issue #7)
-- Tests! (Issue #11)
+- [View all images in a historic visualization][1]
+- [Remove hard-coded paths][2]
+- [Tests!][3]
+
+
+[1]:https://github.com/brousch/WaznexServer/issues/3
+[2]:https://github.com/brousch/WaznexServer/issues/7
+[3]:https://github.com/brousch/WaznexServer/issues/11
