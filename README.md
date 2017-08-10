@@ -14,7 +14,12 @@ This allows attendees to see what's going on in upcoming sessions without going 
 
 Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 14.04 Digital Ocean 1GB instance.
 
-## Version 0.4 (current stable) ##
+## Version 0.5 (current stable) ##
+
+- Switched install from upstart to systemd for Ubuntu 16.04
+- Moved to sockets for nginx to waznexserver communication
+
+## Version 0.4 ##
 
 - Added Vagrant for easier development
 - Much improved Makefile for easier development and production installation
@@ -41,7 +46,7 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ### Tested on ###
 
-- Ubuntu 14.04 LTS Server
+- Ubuntu 16.04 LTS Server
 
 ### Installation ###
 
@@ -54,10 +59,10 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 5. `vagrant up`
 6. `vagrant ssh`
 
-#### Production on Ubuntu 14.04 64bit ####
+#### Production on Ubuntu 16.04 64bit ####
 
 1. SSH to server as root
-2. `sudo apt-get install -y git`
+2. `sudo apt-get install -y make git`
 3. `mkdir /opt/waznexserver`
 4. `cd /opt/waznexserver`
 5. `git clone https://github.com/brousch/WaznexServer.git`
