@@ -1,0 +1,45 @@
+upstream flask_server {
+    server 127.0.0.1:8000 fail_timeout=0;
+}
+
+server {
+    listen 80;
+    server_name talks.barcampgr.org;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+    client_max_body_size 8M;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Scheme $scheme;
+        proxy_connect_timeout 10;
+        proxy_read_timeout 10;
+        proxy_pass http://flask_server;
+    }
+
+    location /static {
+        alias /opt/waznexserver/WaznexServer/waznexserver/static/;
+        autoindex on;
+    }
+
+    location /thumbnail {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/thumbnails/;
+    }
+    location /medium {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/downsized/;
+    }
+    location /image {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/images/;
+    }
+    location /diagnostic {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/diagnostic/;
+    }
+    location /sliced {
+        alias /opt/waznexserver/WaznexServer/waznexserver/data/sliced/;
+    }
+}
+
+

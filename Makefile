@@ -36,7 +36,7 @@ init_data:
 
 .PHONY: init_production
 init_production:
-	sudo cp -R $(PROJECT)/waznexserver/misc/ubuntu-nginx-gunicorn/etc/* /etc/
+	sudo cp -R $(PROJECT)/waznexserver/misc/systemd/etc/* /etc/
 
 .PHONY: clean_venv
 clean_venv:

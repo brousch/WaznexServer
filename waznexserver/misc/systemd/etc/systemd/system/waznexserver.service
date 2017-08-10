@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn instance to serve waznexserver
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/opt/waznexserver/WaznexServer
+Environment="PATH=/opt/waznexserver/env/bin"
+ExecStart=/opt/waznexserver/env/bin/gunicorn --workers 8 --bind unix:waznexserver.sock -m 007 waznexserver.waznexserver:app
+
+[Install]
+WantedBy=multi-user.target
+
