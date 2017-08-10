@@ -37,6 +37,7 @@ init_data:
 .PHONY: init_production
 init_production:
 	sudo cp -R $(PROJECT)/waznexserver/misc/systemd/etc/* /etc/
+	sudo systemctl daemon-reload
 
 .PHONY: clean_venv
 clean_venv:
