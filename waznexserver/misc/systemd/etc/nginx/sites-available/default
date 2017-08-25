@@ -10,7 +10,6 @@ server {
     client_max_body_size 8M;
 
     location / {
-        include proxy_params;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
         proxy_redirect off;
@@ -42,5 +41,3 @@ server {
         alias /opt/waznexserver/WaznexServer/waznexserver/data/sliced/;
     }
 }
-
-
