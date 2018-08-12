@@ -12,7 +12,7 @@ and the server converts this into an interactive grid:
 
 This allows attendees to see what's going on in upcoming sessions without going out to the lobby.
 
-Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 14.04 Digital Ocean 1GB instance.
+Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 16.04 with at least 1GB of RAM.
 
 ## Version 0.5 (current stable) ##
 
