@@ -3,7 +3,7 @@
 
 
 import os
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from waznexserver import app
 from waznexserver import db
 
@@ -15,7 +15,7 @@ IMAGELEVEL_GRID = 1
 
 class ImageLevel (db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    desc = db.Column(db.Unicode(16))
+    desc = db.Column(db.String(16))
     
     def __init__(self, id, desc):
         self.id = id
@@ -33,7 +33,7 @@ IMAGESTATUS_DONE = 2
 
 class ImageStatus (db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    desc = db.Column(db.Unicode(16))
+    desc = db.Column(db.String(16))
     
     def __init__(self, id, desc):
         self.id = id
@@ -46,7 +46,7 @@ class ImageStatus (db.Model):
 class GridItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     upload_dt = db.Column(db.DateTime(), index=True)
-    filename = db.Column(db.Unicode(64), unique=True)
+    filename = db.Column(db.String(64), unique=True)
     status = db.Column(db.Integer, db.ForeignKey('image_status.id'))
     level = db.Column(db.Integer, db.ForeignKey('image_level.id'))
 
@@ -88,7 +88,7 @@ class GridCell(db.Model):
                              db.ForeignKey('grid_item.id'), 
                              index=True)
     grid_item = db.relationship("GridItem")
-    filename = db.Column(db.Unicode(16))
+    filename = db.Column(db.String(16))
     col = db.Column(db.Integer)
     row = db.Column(db.Integer)
     
@@ -107,7 +107,7 @@ class GridCell(db.Model):
 class TweetFetchImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fetch_dt = db.Column(db.DateTime(), index=True)
-    url = db.Column(db.Unicode(254))
+    url = db.Column(db.String(254))
     
     def __init__(self, fetch_ts, url):
         self.fetch_dt = fetch_ts
