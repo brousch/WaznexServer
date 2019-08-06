@@ -22,7 +22,7 @@ class ImageLevel (db.Model):
         self.desc = desc
     
     def __repr__(self):
-        return '<id:%d %s>' % (self.id, self.desc)
+        return '<id:{} {}>'.format(self.id, self.desc)
 
 
 # Image Statuses
@@ -40,7 +40,7 @@ class ImageStatus (db.Model):
         self.desc = desc
     
     def __repr__(self):
-        return '<id:%d %s>' % (self.id, self.desc)
+        return '<id:{} {}>'.format(self.id, self.desc)
 
 
 class GridItem(db.Model):
@@ -57,10 +57,10 @@ class GridItem(db.Model):
         self.level = IMAGELEVEL_NOTHING
         
     def __repr__(self):
-        return '<id:%d filename:%s status:%d level:%d>' % (self.id,
-                                                             self.filename,
-                                                            self.status,
-                                                             self.level)
+        return '<id:{} filename:{} status:{} level:{}>'.format(self.id,
+                                                               self.filename,
+                                                               self.status,
+                                                               self.level)
     
     def get_thumbnail_path(self):
         return os.path.join(app.config['THUMBNAIL_FOLDER'], self.filename)
@@ -99,9 +99,11 @@ class GridCell(db.Model):
         self.row = row
     
     def __repr__(self):
-        return '<id:%d part_of:%d filename: %d>' % (self.id, 
-                                                    self.grid_item,
-                                                    self.filename)
+        return '<id:{} part_of:{} filename: {} col:{} row:{}>'.format(self.id,
+                                                                self.grid_item,
+                                                                self.filename,
+                                                                self.col,
+                                                                self.row)
 
 
 class TweetFetchImage(db.Model):
@@ -114,5 +116,5 @@ class TweetFetchImage(db.Model):
         self.url = url
         
     def __repr__(self):
-        return '<id:%d url:%s>' % (self.id, self.url)
+        return '<id:{} url:{}>'.format(self.id, self.url)
         
