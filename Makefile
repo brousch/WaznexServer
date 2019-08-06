@@ -15,7 +15,7 @@ clean_all: clean_venv clean_data
 .PHONY: install_system_requirements
 install_system_requirements:
 	sudo apt-get update
-	sudo apt-get install -y nginx python-dev libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp5 libwebp-dev zlib1g-dev
+	sudo apt-get install -y nginx python-dev libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp6 libwebp-dev zlib1g-dev
 
 .PHONY: bootstrap_modern_python_tools
 bootstrap_modern_python_tools:
