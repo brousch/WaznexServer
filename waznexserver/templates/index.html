@@ -49,11 +49,9 @@
                         </a>
                     {% elif grid.level == 1 %}
                         <div class="cell-row">
-                        {% set ns = namespace(row_num=0) %}
                         {% for cell in grid.cells %}
-                            {% if cell.row > ns.row_num %}
+                            {% if loop.changed(cell.row) %}
                                 </div><div class="cell-row">
-                                {% set ns.row_num = cell.row %}
                             {% endif %}
                             <a href="/colview/{{ grid.id }}/{{ cell.col }}">
                                 <img width={{ grid.cell_width }} class="cell" src="/sliced/{{ grid.get_split_rel_path() }}/{{ cell.filename }}">
