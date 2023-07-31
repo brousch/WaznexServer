@@ -62,6 +62,7 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 4. `cd WaznexServer`
 5. `vagrant up`
 6. `vagrant ssh`
+7. Run `waznexserver/process_grid.py` after uploading
 
 #### Production on Ubuntu 16.04 64bit ####
 
