@@ -19,11 +19,8 @@ install_system_requirements:
 
 .PHONY: bootstrap_modern_python_tools
 bootstrap_modern_python_tools:
-	sudo apt-get remove --purge -y python-virtualenv python-pip python-setuptools
-	wget https://bootstrap.pypa.io/ez_setup.py -O - | sudo python2.7
-	sudo rm -f setuptools*.zip
-	sudo easy_install-2.7 -U pip
-	sudo pip2.7 install -U virtualenv
+	sudo pip install -U pip
+	sudo python -m pip install -U virtualenv
 
 .PHONY: create_venv
 create_venv:
