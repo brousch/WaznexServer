@@ -12,7 +12,7 @@ and the server converts this into an interactive grid:
 
 This allows attendees to see what's going on in upcoming sessions without going out to the lobby.
 
-Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 16.04 with at least 1GB of RAM.
+Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 18.04 with at least 1GB of RAM.
 
 ## Version 0.6 (current stable) ##
 
@@ -42,19 +42,13 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Version 0.1 ##
 
-### Capabilities ###
-
 - Version 0.1 includes the bare essentials of a working server.
 - It can accept file uploads and will display the three most recent uploads using the mobile web theme.
 - It generates two additional sized versions of each photo: a downsized version with maximum size of 1024x1024 pixels, and a thumbnail version with a maximum size of 316x316 pixels. The downsized version is useful for viewing on mobile platforms that limit download size (WebOS).  The thumbnail version is sized to fit the mobile theme width.
 
-### Tested on ###
+# Installation
 
-- Ubuntu 16.04 LTS Server
-
-### Installation ###
-
-#### Development ####
+## Development
 
 1. Install Vagrant and a provider (VirtualBox)
 2. Install git
@@ -62,9 +56,8 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 4. `cd WaznexServer`
 5. `vagrant up`
 6. `vagrant ssh`
-7. Run `waznexserver/process_grid.py` after uploading
 
-#### Production on Ubuntu 16.04 64bit ####
+## Production on Ubuntu 18.04 64bit
 
 1. SSH to server as root
 2. `sudo apt-get install -y make git`
@@ -78,28 +71,29 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 10. `make init_data`
 11. `make init_production`
 
-### Configuration ###
+# Configuration
 
 - Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
 - Modify the `templates/index.html` file to change the page title.
 - Modify the `static/css/main.css` file to change the style.
 - Also be sure to disable debugging in a live deployment.
 
-### Running ###
+# Running
 
-#### Development ####
+## Development
 
 1. `vagrant ssh`
 2. `cd /opt/waznexserver/Waznexserver`
 3. `make run`
+4. Run `waznexserver/process_grid.py` after uploading
 
-#### Production ####
+## Production
 
 1. SSH to server as root
 2. `cd /opt/waznexserver/WaznexServer`
 3. `make run_production`
 
-## Roadmap ##
+# Roadmap
 
 - [View all images in a historic visualization][1]
 - [Remove hard-coded paths][2]
