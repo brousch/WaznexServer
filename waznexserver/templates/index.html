@@ -29,9 +29,12 @@
         <script type="text/javascript" src="/static/js/ga.js"></script>
     </head>
     <body >
-        <a href="http://talks.barcampgr.org/" class="title">
+        <a href="/" class="title">
             <h1>BarCampGR Session Grid</h1>
         </a>
+	<div class="sentence">
+            Tap any talk to zoom into that column
+	</div>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="messages" id="message-wrapper">
@@ -60,8 +63,8 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="image-date">
-                    {{ grid.upload_dt.strftime(pretty_dt_format) }}
+                <div class="sentence">
+                    Photo taken: {{ grid.upload_dt.strftime(pretty_dt_format) }}
                 </div>
                 <div class="button-wrapper">
                     <a href="/image/{{ grid.filename }}">
@@ -70,11 +73,12 @@
                     <a href="/medium/{{ grid.filename }}">
                         <div class="button-like btn-view-size">Medium</div>
                     </a>
+		    <br>
                     <a href="/sliced/{{ grid.get_split_rel_path() }}/lines.png">
-                        <div class="button-like btn-view-diagnostic">D</div>
+                        <div class="button-like btn-view-diagnostic">Diagnostic</div>
                     </a>
                     <a href="/mark_bad/{{ grid.id }}" id="lnk-mark-bad">
-                        <div class="button-like btn-mark-bad">X</div>
+                        <div class="button-like btn-mark-bad">Delete</div>
                     </a>
                 </div>
             {% else %}

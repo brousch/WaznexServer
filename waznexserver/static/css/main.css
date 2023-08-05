@@ -100,7 +100,7 @@ div.cells {
     text-align: center;
 }
 
-div.image-date {
+div.sentence {
     display: block;
     margin: 0.25em 0 0.25em 0;
     text-align: center;
@@ -128,6 +128,7 @@ div.button-like {
     display: inline-block;
     font-weight: bold;
     padding: 0.25em 1em 0.25em 1em;
+    margin: 0.25em;
     text-decoration: none;
 }
 
