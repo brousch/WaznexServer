@@ -64,7 +64,7 @@
                     {% endif %}
                 </div>
                 <div class="sentence">
-                    Photo taken: {{ grid.upload_dt.strftime(pretty_dt_format) }}
+                    Photo updated: {{ grid.upload_dt|timeago }}
                 </div>
                 <div class="button-wrapper">
                     <a href="/image/{{ grid.filename }}">

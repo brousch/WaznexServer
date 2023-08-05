@@ -15,6 +15,7 @@ from flask import url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from sqlalchemy import or_
+import timeago
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -24,6 +25,12 @@ app.config.from_envvar('WAZNEXSERVER_SETTINGS', silent=True)
 
 db = SQLAlchemy(app)
 import models
+
+
+# https://stackoverflow.com/a/64076444/
+@app.template_filter('timeago')
+def timeago_filter(date):
+    return timeago.format(date, datetime.datetime.now())
         
               
 @app.route('/')
