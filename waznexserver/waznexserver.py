@@ -41,9 +41,6 @@ def index():
                     order_by('row').order_by('col').all()
         app.logger.info('Found some cells: ' + str(len(cell_list)))
         grid.cells = cell_list
-        # Set image width to fit a row without wrapping
-        # Use last cell to get the number of columns 
-        grid.cell_width = int(316/(cell_list[-1].col + 1))
     return render_template('index.html',
                            grid=grid,
                            pretty_dt_format=app.config['PRETTY_DT_FORMAT'])
@@ -97,10 +94,9 @@ def show_colview(grid_item_id, col_num):
                 filter(or_(models.GridCell.col==0,
                            models.GridCell.col==col_num)).\
                 order_by('row').order_by('col').all()
-    cell_width = int(316/2)
     return render_template('colview.html', 
                            cell_list=cells,
-                           cell_width=cell_width)
+                           )
 
 @app.route('/upload/', methods=['GET', 'POST'])
 def upload_file():

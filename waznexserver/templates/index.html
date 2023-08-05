@@ -54,7 +54,7 @@
                                 </div><div class="cell-row">
                             {% endif %}
                             <a href="/colview/{{ grid.id }}/{{ cell.col }}">
-                                <img width={{ grid.cell_width }} class="cell" src="/sliced/{{ grid.get_split_rel_path() }}/{{ cell.filename }}">
+                                <img class="cell" src="/sliced/{{ grid.get_split_rel_path() }}/{{ cell.filename }}">
                             </a>
                         {% endfor %}
                         </div>
