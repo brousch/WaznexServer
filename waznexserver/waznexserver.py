@@ -124,7 +124,7 @@ def upload_file():
             grid_item.status = models.IMAGESTATUS_NEW
             db.session.commit()
             app.logger.info('Adding image: ' + filename)
-            flash('Upload successful.', "message-upload-success")
+            flash('Upload successful. Refresh to see it soon', "message-upload-success")
         else:
             flash('Upload failed - invalid file extension.', 
                   "message-upload-fail")
