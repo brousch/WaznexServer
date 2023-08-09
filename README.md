@@ -92,6 +92,8 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 1. SSH to server as root
 2. `cd /opt/waznexserver/WaznexServer`
 3. `make run_production`
+4. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
+5. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
 
 # Roadmap
 
