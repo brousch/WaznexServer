@@ -111,7 +111,7 @@ def upload_file():
         f = request.files['file']
         if f and allowed_file(f.filename):
             # Name and save file to IMAGE folder
-            upload_ts = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+            upload_ts = datetime.datetime.utcnow()
             filename_name, filename_ext = os.path.splitext(f.filename)
             clean_filename = filename_name.replace('.', '') + filename_ext
             filename = ('%sF%s') %\
