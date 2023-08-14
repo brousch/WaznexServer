@@ -70,7 +70,7 @@ img.grid-image {
 }
 
 div.cell-row {
-    width: 100%;
+    display: flex;
 }
 
 div.cells a, div.cell-row a {
@@ -79,6 +79,7 @@ div.cells a, div.cell-row a {
 
 img.cell {
     display: inline-block;
+    width: 100%;
     margin: 0 -2px;
     text-decoration: none;
 }
@@ -94,11 +95,12 @@ img.cell:hover {
 }
 
 div.cells {
+    display: flex;
     margin: 0 auto 0 auto;
     text-align: center;
 }
 
-div.image-date {
+div.sentence {
     display: block;
     margin: 0.25em 0 0.25em 0;
     text-align: center;
@@ -126,6 +128,7 @@ div.button-like {
     display: inline-block;
     font-weight: bold;
     padding: 0.25em 1em 0.25em 1em;
+    margin: 0.25em;
     text-decoration: none;
 }
 

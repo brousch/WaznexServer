@@ -15,15 +15,12 @@ clean_all: clean_venv clean_data
 .PHONY: install_system_requirements
 install_system_requirements:
 	sudo apt-get update
-	sudo apt-get install -y nginx python-dev libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp6 libwebp-dev zlib1g-dev
+	sudo apt-get install -y nginx python-dev libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp6 libwebp-dev zlib1g-dev run-one
 
 .PHONY: bootstrap_modern_python_tools
 bootstrap_modern_python_tools:
-	sudo apt-get remove --purge -y python-virtualenv python-pip python-setuptools
-	wget https://bootstrap.pypa.io/ez_setup.py -O - | sudo python2.7
-	sudo rm -f setuptools*.zip
-	sudo easy_install-2.7 -U pip
-	sudo pip2.7 install -U virtualenv
+	sudo pip install -U pip
+	sudo python -m pip install -U virtualenv
 
 .PHONY: create_venv
 create_venv:
@@ -70,4 +67,5 @@ run:
 .PHONY: run_production
 run_production:
 	sudo service waznexserver restart
+	sudo service waznex-process-grid restart
 	sudo service nginx restart

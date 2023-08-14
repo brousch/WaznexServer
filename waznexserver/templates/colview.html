@@ -11,14 +11,12 @@
     <body>
         <h1>BarCampGR Session Grid</h1>
         <div class="cells">
-            {% set row_num = 0 %}
             {% for cell in cell_list %}
-                {% if cell.row > row_num %}
+                {% if loop.changed(cell.row) %}
                     </div><div class="cells">
-                    {% set row_num = cell.row %}
                 {% endif %}
                 <a href="/sliced/{{ cell.grid_item.get_split_rel_path() }}/{{ cell.filename }}">
-                    <img width={{ cell_width }} class="cell" src="/sliced/{{ cell.grid_item.get_split_rel_path() }}/{{ cell.filename }}">
+                    <img class="cell" src="/sliced/{{ cell.grid_item.get_split_rel_path() }}/{{ cell.filename }}">
                 </a>
             {% endfor %}
             </div>

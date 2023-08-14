@@ -15,6 +15,7 @@ from flask import url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from sqlalchemy import or_
+import timeago
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -24,6 +25,12 @@ app.config.from_envvar('WAZNEXSERVER_SETTINGS', silent=True)
 
 db = SQLAlchemy(app)
 import models
+
+
+# https://stackoverflow.com/a/64076444/
+@app.template_filter('timeago')
+def timeago_filter(date):
+    return timeago.format(date, datetime.datetime.now())
         
               
 @app.route('/')
@@ -41,9 +48,6 @@ def index():
                     order_by('row').order_by('col').all()
         app.logger.info('Found some cells: ' + str(len(cell_list)))
         grid.cells = cell_list
-        # Set image width to fit a row without wrapping
-        # Use last cell to get the number of columns 
-        grid.cell_width = int(316/(cell_list[-1].col + 1))
     return render_template('index.html',
                            grid=grid,
                            pretty_dt_format=app.config['PRETTY_DT_FORMAT'])
@@ -97,10 +101,9 @@ def show_colview(grid_item_id, col_num):
                 filter(or_(models.GridCell.col==0,
                            models.GridCell.col==col_num)).\
                 order_by('row').order_by('col').all()
-    cell_width = int(316/2)
     return render_template('colview.html', 
                            cell_list=cells,
-                           cell_width=cell_width)
+                           )
 
 @app.route('/upload/', methods=['GET', 'POST'])
 def upload_file():
@@ -108,7 +111,7 @@ def upload_file():
         f = request.files['file']
         if f and allowed_file(f.filename):
             # Name and save file to IMAGE folder
-            upload_ts = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+            upload_ts = datetime.datetime.utcnow()
             filename_name, filename_ext = os.path.splitext(f.filename)
             clean_filename = filename_name.replace('.', '') + filename_ext
             filename = ('%sF%s') %\
@@ -121,7 +124,7 @@ def upload_file():
             grid_item.status = models.IMAGESTATUS_NEW
             db.session.commit()
             app.logger.info('Adding image: ' + filename)
-            flash('Upload successful.', "message-upload-success")
+            flash('Upload successful. Refresh to see it soon', "message-upload-success")
         else:
             flash('Upload failed - invalid file extension.', 
                   "message-upload-fail")

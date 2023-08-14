@@ -52,7 +52,7 @@ outputSize = (320, 207)
 # Open the source file and pick out the color to search for
 def GetSource(filename):
     original = Image.open(filename)
-    original.load()
+    original = ImageOps.exif_transpose(original)
     return original
 
 # Gets a luminance channel representing the similarity to the desired color
