@@ -14,7 +14,18 @@ This allows attendees to see what's going on in upcoming sessions without going 
 
 Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 18.04 with at least 1GB of RAM.
 
-## Version 0.6 (current stable) ##
+## Version 0.7 ##
+
+- responsive full width display
+- UI & wording updates
+- show relative time since photo uploaded
+- caching headers for static files
+- auto-rotate iphone images
+- system service for splitting the grid
+- jinja loop fix
+- pip/python2 bootstrap fix
+
+## Version 0.6 ##
 
 - Upgraded to Ubuntu 18.04 Bionic
 
