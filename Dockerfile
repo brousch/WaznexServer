@@ -29,7 +29,7 @@ COPY . $CODE
 
 ENV PATH=$VENV/bin:$PATH
 
-RUN waznexserver/utils.py  # inits data
+RUN waznexserver/init_data.py
 
 EXPOSE 8080
 

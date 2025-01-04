@@ -29,7 +29,7 @@ create_venv:
 
 .PHONY: init_data
 init_data:
-	$(PYTHON) waznexserver/utils.py
+	$(PYTHON) waznexserver/init_data.py
 
 .PHONY: init_production
 init_production:
