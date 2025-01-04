@@ -12,50 +12,8 @@ and the server converts this into an interactive grid:
 
 This allows attendees to see what's going on in upcoming sessions without going out to the lobby.
 
-Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 18.04 with at least 1GB of RAM.
+Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on Ubuntu with at least 1GB of RAM.
 
-## Version 0.7 ##
-
-- responsive full width display
-- UI & wording updates
-- show relative time since photo uploaded
-- caching headers for static files
-- auto-rotate iphone images
-- system service for splitting the grid
-- jinja loop fix
-- pip/python2 bootstrap fix
-
-## Version 0.6 ##
-
-- Upgraded to Ubuntu 18.04 Bionic
-
-## Version 0.5 ##
-
-- Switched install from upstart to systemd for Ubuntu 16.04
-- Moved to sockets for nginx to waznexserver communication
-
-## Version 0.4 ##
-
-- Added Vagrant for easier development
-- Much improved Makefile for easier development and production installation
-- Usable documentation
-
-## Version 0.3 ##
-
-- Newer versions of Flask and dependencies.
-- Diagnostic image link between sizes and mark bad.
-- Mark bad button.
-
-## Version 0.2 ##
-
-- It now has a database backend using SQLAlchemy instead of the thread-unsafe global list. This has only been tested with Sqlite so far.
-- You can now control how many images are shown on the main page - it's no longer hard-coded to 3.
-
-## Version 0.1 ##
-
-- Version 0.1 includes the bare essentials of a working server.
-- It can accept file uploads and will display the three most recent uploads using the mobile web theme.
-- It generates two additional sized versions of each photo: a downsized version with maximum size of 1024x1024 pixels, and a thumbnail version with a maximum size of 316x316 pixels. The downsized version is useful for viewing on mobile platforms that limit download size (WebOS).  The thumbnail version is sized to fit the mobile theme width.
 
 # Installation
 
@@ -108,13 +66,47 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 4. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
 5. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
 
-# Roadmap
+# Changelog
 
-- [View all images in a historic visualization][1]
-- [Remove hard-coded paths][2]
-- [Tests!][3]
+## Version 0.7 ##
 
+- responsive full width display
+- UI & wording updates
+- show relative time since photo uploaded
+- caching headers for static files
+- auto-rotate iphone images
+- system service for splitting the grid
+- jinja loop fix
+- pip/python2 bootstrap fix
 
-[1]:https://github.com/brousch/WaznexServer/issues/3
-[2]:https://github.com/brousch/WaznexServer/issues/7
-[3]:https://github.com/brousch/WaznexServer/issues/11
+## Version 0.6 ##
+
+- Upgraded to Ubuntu 18.04 Bionic
+
+## Version 0.5 ##
+
+- Switched install from upstart to systemd for Ubuntu 16.04
+- Moved to sockets for nginx to waznexserver communication
+
+## Version 0.4 ##
+
+- Added Vagrant for easier development
+- Much improved Makefile for easier development and production installation
+- Usable documentation
+
+## Version 0.3 ##
+
+- Newer versions of Flask and dependencies.
+- Diagnostic image link between sizes and mark bad.
+- Mark bad button.
+
+## Version 0.2 ##
+
+- It now has a database backend using SQLAlchemy instead of the thread-unsafe global list. This has only been tested with Sqlite so far.
+- You can now control how many images are shown on the main page - it's no longer hard-coded to 3.
+
+## Version 0.1 ##
+
+- Version 0.1 includes the bare essentials of a working server.
+- It can accept file uploads and will display the three most recent uploads using the mobile web theme.
+- It generates two additional sized versions of each photo: a downsized version with maximum size of 1024x1024 pixels, and a thumbnail version with a maximum size of 316x316 pixels. The downsized version is useful for viewing on mobile platforms that limit download size (WebOS).  The thumbnail version is sized to fit the mobile theme width.
