@@ -19,12 +19,11 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Development
 
-1. Install Vagrant and a provider (VirtualBox)
-2. Install git
-3. `git clone https://github.com/brousch/WaznexServer.git`
-4. `cd WaznexServer`
-5. `vagrant up`
-6. `vagrant ssh`
+1. Install Docker and git
+2. `git clone https://github.com/brousch/WaznexServer.git`
+3. `cd WaznexServer`
+4. `make docker_dev` (or run Docker commands from Makefile manually)
+5. Ctrl-C to stop it.  Re-run it if you make file changes (no shared volumes currently)
 
 ## Production on Ubuntu 18.04 64bit
 
@@ -53,10 +52,8 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Development
 
-1. `vagrant ssh`
-2. `cd /opt/waznexserver/Waznexserver`
-3. `make run`
-4. Run `waznexserver/process_grid.py` after uploading
+1. `make docker_run` or run waznexserver.py in your own Python environment
+2. after uploading a file `make docker_dev_process` or process_grid.py
 
 ## Production
 

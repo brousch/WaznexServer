@@ -22,7 +22,7 @@ Example usage:
 >>> s = "Test file data"
 >>> f = StringIO(s)
 
->>> req = urllib2.Request("http://localhost:5000", f,
+>>> req = urllib2.Request("http://localhost:8080", f,
 ...                       {'Content-Length': str(len(s))})
 """
 
