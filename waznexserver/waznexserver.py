@@ -17,6 +17,7 @@ from sqlalchemy import desc
 from sqlalchemy import or_
 import timeago
 from werkzeug import secure_filename
+from werkzeug.security import safe_join
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -73,25 +74,11 @@ def show_image(filename):
     app.logger.info('Serving image through Flask: ' + filename)
     return send_from_directory(app.config['IMAGE_FOLDER'], filename)
 
-@app.route('/diagnostic/<int:grid_item_id>')
-def show_diagnostic(grid_item_id):
-    grid_item = db.session.query(models.GridItem).\
-                filter_by(id=grid_item_id).first()
-    gsp = grid_item.get_split_path()
-    filename = "lines.png"
-    app.logger.info('Serving diagnostic image through Flask: ' + filename)
-    return send_from_directory(os.path.join(app.config['SPLIT_FOLDER'], gsp),
-                                            filename)
+@app.route('/sliced/<dirname>/<filename>')
+def show_sliced(dirname, filename):
+    app.logger.info('Serving cell image through Flask: ' + filename)
+    return send_from_directory(app.config['SPLIT_FOLDER'], safe_join(dirname, filename))
 
-@app.route('/sliced/<int:grid_item_id>/<filename>')
-def show_sliced(grid_item_id, filename):
-    grid_item = db.session.query(models.GridItem).\
-                filter_by(id=grid_item_id).first()
-    gsp = grid_item.get_split_path()
-    app.logger.info('Serving cell through Flask: ' + gsp + '/' + filename)
-    return send_from_directory(os.path.join(app.config['SPLIT_FOLDER'], gsp),
-                                            filename)
-                                            
 @app.route('/colview/<int:grid_item_id>/<int:col_num>')
 def show_colview(grid_item_id, col_num):
     # Get column 0 - Room List
