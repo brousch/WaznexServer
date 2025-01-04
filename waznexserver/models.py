@@ -104,17 +104,3 @@ class GridCell(db.Model):
                                                                 self.filename,
                                                                 self.col,
                                                                 self.row)
-
-
-class TweetFetchImage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    fetch_dt = db.Column(db.DateTime(), index=True)
-    url = db.Column(db.String(254))
-    
-    def __init__(self, fetch_ts, url):
-        self.fetch_dt = fetch_ts
-        self.url = url
-        
-    def __repr__(self):
-        return '<id:{} url:{}>'.format(self.id, self.url)
-        
