@@ -1,5 +1,4 @@
 data
 *.pyc
 *.pyo
-.vagrant/
 .idea/

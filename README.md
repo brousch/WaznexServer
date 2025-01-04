@@ -12,7 +12,58 @@ and the server converts this into an interactive grid:
 
 This allows attendees to see what's going on in upcoming sessions without going out to the lobby.
 
-Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on an Ubuntu 18.04 with at least 1GB of RAM.
+Waznex Server is based on the Flask microframework and can easily be hosted on a Linux or OSX server. I currently recommend running in production on Ubuntu with at least 1GB of RAM.
+
+
+# Installation
+
+## Development
+
+1. Install Docker and git
+2. `git clone https://github.com/brousch/WaznexServer.git`
+3. `cd WaznexServer`
+4. `make docker_dev` (or run Docker commands from Makefile manually)
+5. Ctrl-C to stop it.  Re-run it if you make file changes (no shared volumes currently)
+
+## Production on Ubuntu 18.04 64bit
+
+1. SSH to server as root
+2. `apt update`
+3. `apt install -y make git`
+4. `mkdir /opt/waznexserver`
+5. `cd /opt/waznexserver`
+6. `git clone https://github.com/brousch/WaznexServer.git`
+7. `cd WaznexServer`
+8. `make install_system_requirements`
+9. `curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python`
+10. `make bootstrap_modern_python_tools`  # lol modern
+11. `make create_venv`
+12. `make init_data`
+13. `make init_production`
+
+# Configuration
+
+- Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
+- Modify the `templates/index.html` file to change the page title.
+- Modify the `static/css/main.css` file to change the style.
+- Also be sure to disable debugging in a live deployment.
+
+# Running
+
+## Development
+
+1. `make docker_run` or run waznexserver.py in your own Python environment
+2. after uploading a file `make docker_dev_process` or process_grid.py
+
+## Production
+
+1. SSH to server as root
+2. `cd /opt/waznexserver/WaznexServer`
+3. `make run_production`
+4. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
+5. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
+
+# Changelog
 
 ## Version 0.7 ##
 
@@ -56,65 +107,3 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 - Version 0.1 includes the bare essentials of a working server.
 - It can accept file uploads and will display the three most recent uploads using the mobile web theme.
 - It generates two additional sized versions of each photo: a downsized version with maximum size of 1024x1024 pixels, and a thumbnail version with a maximum size of 316x316 pixels. The downsized version is useful for viewing on mobile platforms that limit download size (WebOS).  The thumbnail version is sized to fit the mobile theme width.
-
-# Installation
-
-## Development
-
-1. Install Vagrant and a provider (VirtualBox)
-2. Install git
-3. `git clone https://github.com/brousch/WaznexServer.git`
-4. `cd WaznexServer`
-5. `vagrant up`
-6. `vagrant ssh`
-
-## Production on Ubuntu 18.04 64bit
-
-1. SSH to server as root
-2. `apt update`
-3. `apt install -y make git`
-4. `mkdir /opt/waznexserver`
-5. `cd /opt/waznexserver`
-6. `git clone https://github.com/brousch/WaznexServer.git`
-7. `cd WaznexServer`
-8. `make install_system_requirements`
-9. `curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python`
-10. `make bootstrap_modern_python_tools`  # lol modern
-11. `make create_venv`
-12. `make init_data`
-13. `make init_production`
-
-# Configuration
-
-- Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
-- Modify the `templates/index.html` file to change the page title.
-- Modify the `static/css/main.css` file to change the style.
-- Also be sure to disable debugging in a live deployment.
-
-# Running
-
-## Development
-
-1. `vagrant ssh`
-2. `cd /opt/waznexserver/Waznexserver`
-3. `make run`
-4. Run `waznexserver/process_grid.py` after uploading
-
-## Production
-
-1. SSH to server as root
-2. `cd /opt/waznexserver/WaznexServer`
-3. `make run_production`
-4. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
-5. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
-
-# Roadmap
-
-- [View all images in a historic visualization][1]
-- [Remove hard-coded paths][2]
-- [Tests!][3]
-
-
-[1]:https://github.com/brousch/WaznexServer/issues/3
-[2]:https://github.com/brousch/WaznexServer/issues/7
-[3]:https://github.com/brousch/WaznexServer/issues/11
