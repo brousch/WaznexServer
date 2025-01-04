@@ -71,16 +71,18 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 ## Production on Ubuntu 18.04 64bit
 
 1. SSH to server as root
-2. `sudo apt-get install -y make git`
-3. `mkdir /opt/waznexserver`
-4. `cd /opt/waznexserver`
-5. `git clone https://github.com/brousch/WaznexServer.git`
-6. `cd WaznexServer`
-7. `make install_system_requirements`
-8. `make bootstrap_modern_python_tools`
-9. `make create_venv`
-10. `make init_data`
-11. `make init_production`
+2. `apt update`
+3. `apt install -y make git`
+4. `mkdir /opt/waznexserver`
+5. `cd /opt/waznexserver`
+6. `git clone https://github.com/brousch/WaznexServer.git`
+7. `cd WaznexServer`
+8. `make install_system_requirements`
+9. `curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python`
+10. `make bootstrap_modern_python_tools`  # lol modern
+11. `make create_venv`
+12. `make init_data`
+13. `make init_production`
 
 # Configuration
 
