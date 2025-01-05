@@ -288,7 +288,7 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
                 try:# Generate a row-wide vector
                     rightDot = rightRowDots[row + 1]
                     rowVec = (dots[rightDot][0] - dots[leftDot][0], dots[rightDot][1] - dots[leftDot][1])
-                except:
+                except Exception:
                     print(f"rightRowDots: {rightRowDots}")
                 
                 for col, topDot in enumerate(topColumnDots[1:-1]):

@@ -140,7 +140,7 @@ def mark_bad(grid_item_id):
         bgi.status = models.IMAGESTATUS_BAD
         db.session.commit()
         flash("Marked an image as bad and removed it.", "message-removed-bad")
-    except:
+    except Exception:
         # Invalid grid_item_id. Ignore it.
         pass
     return redirect(url_for('main.index'))

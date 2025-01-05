@@ -21,7 +21,7 @@ def upload_images():
             datagen, headers = multipart_encode({"file": open(UPLOADS_PATH + '/' + image, "rb")})
             request = urllib.request.Request(UPLOAD_URL, datagen, headers)
             print(urllib.request.urlopen(request).read())
-        except:
+        except Exception:
             pass # Skip files that don't work
         
 if __name__ == '__main__':

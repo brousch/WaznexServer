@@ -20,26 +20,26 @@ def run_basic_transforms(grid_image):
         # Copy orig and create downsized version (1024x1024 max)
         app.logger.info('Generating downsized image for ' +
                         grid_image.filename)
-        shutil.copy2(grid_image.get_image_path(), 
+        shutil.copy2(grid_image.get_image_path(),
                      grid_image.get_downsized_path())
         downs = Image.open(grid_image.get_downsized_path())
         downs.thumbnail((1024,1024), Image.LANCZOS)
         downs.save(grid_image.get_downsized_path(), "JPEG")
-        
+
         # Copy orig and create thumbnail version
         app.logger.info('Generating thumbnail for ' + grid_image.filename)
-        shutil.copy2(grid_image.get_image_path(), 
+        shutil.copy2(grid_image.get_image_path(),
                      grid_image.get_thumbnail_path())
         thumb = Image.open(grid_image.get_thumbnail_path())
         thumb.thumbnail((316,316), Image.LANCZOS)
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
-    
-    except:
+
+    except Exception:
         print("Error while performing basic transforms on {}".format(
                                                           grid_image.filename))
-        print(f"Error was: {sys.exc_info()[1]}")
+        traceback.print_exc()
         return False
-    
+
     return True
 
 
@@ -167,9 +167,9 @@ def process_new_images():
             if basic_result:
                 g.status = models.IMAGESTATUS_DONE
 
-        except:
+        except Exception:
             print(f"Unknown error while processing image: {g.filename}")
-            print(f"Error was: {sys.exc_info()[1]}")
+            traceback.print_exc()
             g.status = models.IMAGESTATUS_BAD
         finally:
             db.session.commit()

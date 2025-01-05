@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-import sys
+import traceback
 
 import config
 import models
@@ -19,7 +19,7 @@ def create_data_dirs():
                 os.mkdir(newdir)
             except OSError:
                 print("Unable to create data directory: " + newdir)
-                print(f"Error was: {sys.exc_info()[1]}")
+                traceback.print_exc()
                 exit(1)
         if not os.path.exists(newdir):  # Make sure it's there now
             print("Unable to find or create data directory: " + newdir)
