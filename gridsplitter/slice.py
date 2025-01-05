@@ -218,7 +218,7 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
     
     # Downsize the search space to speed things up and make the search
     # more accurate
-    imageSearch = imageLuminance.resize(searchSize, Image.ANTIALIAS)
+    imageSearch = imageLuminance.resize(searchSize, Image.LANCZOS)
     
     # Find all of the dots in the image
     dots = TransformDots(FindDots(imageSearch), imageSearch, imageOriginal)

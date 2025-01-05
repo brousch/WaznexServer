@@ -23,7 +23,7 @@ def run_basic_transforms(grid_image):
         shutil.copy2(grid_image.get_image_path(), 
                      grid_image.get_downsized_path())
         downs = Image.open(grid_image.get_downsized_path())
-        downs.thumbnail((1024,1024), Image.ANTIALIAS)
+        downs.thumbnail((1024,1024), Image.LANCZOS)
         downs.save(grid_image.get_downsized_path(), "JPEG")
         
         # Copy orig and create thumbnail version
@@ -31,7 +31,7 @@ def run_basic_transforms(grid_image):
         shutil.copy2(grid_image.get_image_path(), 
                      grid_image.get_thumbnail_path())
         thumb = Image.open(grid_image.get_thumbnail_path())
-        thumb.thumbnail((316,316), Image.ANTIALIAS)
+        thumb.thumbnail((316,316), Image.LANCZOS)
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
     
     except:
