@@ -34,14 +34,14 @@ def create_database():
     statuses = [s for s in dir(models) if s.startswith('IMAGESTATUS_')]
     for status in statuses:
         id = getattr(models, status)
-        s = models.ImageStatus(id, status.split('_',1)[1])
+        s = models.ImageStatus(id, status.split('_', 1)[1])
         db.session.add(s)
 
     # Find and add all of the ImageLevels in models.py
     levels = [l for l in dir(models) if l.startswith('IMAGELEVEL_')]
     for level in levels:
         id = getattr(models, level)
-        l = models.ImageLevel(id, level.split('_',1)[1])
+        l = models.ImageLevel(id, level.split('_', 1)[1])
         db.session.add(l)
 
     db.session.commit()
