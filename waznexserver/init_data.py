@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
-
 import os
 import sys
 
-from .waznexserver import db
-from . import models
-from . import config
+import config
+import models
+from models import db
+from waznexserver import create_app
 
-if __name__ == '__main__':
-    # Create data dirs
+
+def create_data_dirs():
     data_folders = [df for df in dir(config) if df.endswith('_FOLDER')]
     for folder in data_folders:
         newdir = os.path.abspath(getattr(config, folder))
@@ -25,8 +25,10 @@ if __name__ == '__main__':
             print("Unable to find or create data directory: " + newdir)
             exit(1)
 
-    # Create database
+
+def create_database():
     db.create_all()
+    db.session.commit()
 
     # Find and add all of the ImageStatuses in models.py
     statuses = [s for s in dir(models) if s.startswith('IMAGESTATUS_')]
@@ -34,12 +36,20 @@ if __name__ == '__main__':
         id = getattr(models, status)
         s = models.ImageStatus(id, status.split('_',1)[1])
         db.session.add(s)
-    
+
     # Find and add all of the ImageLevels in models.py
     levels = [l for l in dir(models) if l.startswith('IMAGELEVEL_')]
     for level in levels:
         id = getattr(models, level)
         l = models.ImageLevel(id, level.split('_',1)[1])
         db.session.add(l)
-        
+
     db.session.commit()
+
+
+if __name__ == '__main__':
+    create_data_dirs()
+
+    app = create_app()
+    with app.app_context():
+        create_database()

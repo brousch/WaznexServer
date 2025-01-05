@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 
-
 import os
-from flask_sqlalchemy import SQLAlchemy
-from .waznexserver import app
-from .waznexserver import db
 
+from flask import current_app as app  # is this misleading?
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+
+
+class Base(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=Base)
 
 # Image Levels (basic thumbnails, full grid)
 IMAGELEVEL_NOTHING = -1

@@ -3,37 +3,46 @@
 
 import os
 import datetime
-from . import config
-from flask import Flask
+
+from flask import Flask, Blueprint
+from flask import current_app as app  # is this misleading?
 from flask import flash
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import send_from_directory
 from flask import url_for
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from sqlalchemy import or_
 import timeago
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 
-app = Flask(__name__)
-app.config.from_object(__name__)
-app.config.from_object(config)
-app.config.from_envvar('WAZNEXSERVER_SETTINGS', silent=True)
+import config
+import models
+from models import db
 
-db = SQLAlchemy(app)
-from . import models
+main = Blueprint('main', __name__)
 
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(__name__)
+    app.config.from_object(config)
+    app.config.from_envvar('WAZNEXSERVER_SETTINGS', silent=True)
+
+    app.register_blueprint(main)
+
+    models.db.init_app(app)
+
+    return app
 
 # https://stackoverflow.com/a/64076444/
-@app.template_filter('timeago')
+@main.app_template_filter('timeago')
 def timeago_filter(date):
     return timeago.format(date, datetime.datetime.now())
         
               
-@app.route('/')
+@main.route('/')
 def index():
     # Fetch newest images from DB
     grid = db.session.query(models.GridItem).\
@@ -52,33 +61,33 @@ def index():
                            grid=grid,
                            pretty_dt_format=app.config['PRETTY_DT_FORMAT'])
 
-@app.route('/favicon.ico')
+@main.route('/favicon.ico')
 def favicon():
     filename = request.args.get('filename', 'favicon.ico')
     return send_from_directory(os.path.join(app.root_path, 'static', 'favicon'),
                                filename)
 
-@app.route('/thumbnail/<filename>')
+@main.route('/thumbnail/<filename>')
 def show_thumbnail(filename):
     app.logger.info('Serving thumbnail through Flask: ' + filename)
     return send_from_directory(app.config['THUMBNAIL_FOLDER'], filename)
 
-@app.route('/medium/<filename>')
+@main.route('/medium/<filename>')
 def show_downsized(filename):
     app.logger.info('Serving downsized image through Flask: ' + filename)
     return send_from_directory(app.config['DOWNSIZED_FOLDER'], filename)
 
-@app.route('/image/<filename>')
+@main.route('/image/<filename>')
 def show_image(filename):
     app.logger.info('Serving image through Flask: ' + filename)
     return send_from_directory(app.config['IMAGE_FOLDER'], filename)
 
-@app.route('/sliced/<dirname>/<filename>')
+@main.route('/sliced/<dirname>/<filename>')
 def show_sliced(dirname, filename):
     app.logger.info('Serving cell image through Flask: ' + filename)
     return send_from_directory(app.config['SPLIT_FOLDER'], safe_join(dirname, filename))
 
-@app.route('/colview/<int:grid_item_id>/<int:col_num>')
+@main.route('/colview/<int:grid_item_id>/<int:col_num>')
 def show_colview(grid_item_id, col_num):
     # Get column 0 - Room List
     # Get column col_num
@@ -91,7 +100,7 @@ def show_colview(grid_item_id, col_num):
                            cell_list=cells,
                            )
 
-@app.route('/upload/', methods=['GET', 'POST'])
+@main.route('/upload/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
@@ -114,7 +123,7 @@ def upload_file():
         else:
             flash('Upload failed - invalid file extension.', 
                   "message-upload-fail")
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 def allowed_file(filename):
     ext = False
@@ -122,7 +131,7 @@ def allowed_file(filename):
         ext = filename.rsplit('.', 1)[1]
     return ext in app.config['ALLOWED_EXTENSIONS']
 
-@app.route('/mark_bad/<int:grid_item_id>', methods=['GET'])
+@main.route('/mark_bad/<int:grid_item_id>', methods=['GET'])
 def mark_bad(grid_item_id):
     try:
         bgi = db.session.query(models.GridItem).\
@@ -134,8 +143,8 @@ def mark_bad(grid_item_id):
     except:
         # Invalid grid_item_id. Ignore it.
         pass
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
     
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    create_app().run(host='0.0.0.0', port=8080)

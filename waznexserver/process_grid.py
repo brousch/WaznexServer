@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
-
-
 import os
 import shutil
 import subprocess
 import sys
-from .waznexserver import app
-from .waznexserver import db
-from . import models
-from . import config
+import traceback
+
 from PIL import Image
+from flask import current_app as app  # is this misleading?
+
+import config
+import models
+from models import db
+from waznexserver import create_app
 
 
 def run_basic_transforms(grid_image):
@@ -132,8 +134,7 @@ def verify_gridsplitter(grid_image):
     return True
     
 
-if __name__ == '__main__':
-    # Find all of the images that are new
+def process_new_images():
     new_grids = db.session.query(models.GridItem).\
                 filter_by(status=models.IMAGESTATUS_NEW).\
                 order_by('upload_dt').all()
@@ -172,4 +173,9 @@ if __name__ == '__main__':
             g.status = models.IMAGESTATUS_BAD
         finally:
             db.session.commit()
-            
+
+
+if __name__ == '__main__':
+    app = create_app()
+    with app.app_context():
+        process_new_images()
