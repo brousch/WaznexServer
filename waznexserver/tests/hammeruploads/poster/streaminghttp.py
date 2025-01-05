@@ -79,7 +79,7 @@ class _StreamingHTTPMixin:
                     self.sock.sendall(data)
             else:
                 self.sock.sendall(value)
-        except socket.error as v:
+        except OSError as v:
             if v[0] == 32:      # Broken pipe
                 self.close()
             raise
@@ -120,10 +120,10 @@ class StreamingHTTPRedirectHandler(urllib.request.HTTPRedirectHandler):
             # do the same.
             # be conciliant with URIs containing a space
             newurl = newurl.replace(' ', '%20')
-            newheaders = dict((k, v) for k, v in list(req.headers.items())
+            newheaders = {k: v for k, v in list(req.headers.items())
                               if k.lower() not in (
                                   "content-length", "content-type")
-                             )
+                             }
             return urllib.request.Request(newurl,
                            headers=newheaders,
                            origin_req_host=req.get_origin_req_host(),

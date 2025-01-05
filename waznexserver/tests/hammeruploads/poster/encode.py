@@ -47,7 +47,7 @@ def _strify(s):
         return s.encode("utf-8")
     return str(s)
 
-class MultipartParam(object):
+class MultipartParam:
     """Represents a single parameter in a multipart/form-data request
 
     ``name`` is the name of this parameter.
@@ -186,7 +186,7 @@ class MultipartParam(object):
         headers = ["--%s" % boundary]
 
         if self.filename:
-            disposition = 'form-data; name="%s"; filename="%s"' % (self.name,
+            disposition = 'form-data; name="{}"; filename="{}"'.format(self.name,
                     self.filename)
         else:
             disposition = 'form-data; name="%s"' % self.name
@@ -215,7 +215,7 @@ class MultipartParam(object):
         if re.search("^--%s$" % re.escape(boundary), value, re.M):
             raise ValueError("boundary found in encoded string")
 
-        return "%s%s\r\n" % (self.encode_hdr(boundary), value)
+        return f"{self.encode_hdr(boundary)}{value}\r\n"
 
     def iter_encode(self, boundary, blocksize=4096):
         """Yields the encoding of this parameter

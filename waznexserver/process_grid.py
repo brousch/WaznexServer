@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 
@@ -34,9 +33,9 @@ def run_basic_transforms(grid_image):
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
     
     except:
-        print("Error while performing basic transforms on %s" % (
-                                                          grid_image.filename,))
-        print("Error was: %s" % (sys.exc_info()[1],))
+        print("Error while performing basic transforms on {}".format(
+                                                          grid_image.filename))
+        print(f"Error was: {sys.exc_info()[1]}")
         return False
     
     return True
@@ -52,14 +51,14 @@ def run_gridsplitter(grid_image):
     slicer_python = os.path.abspath(config.GRIDSPLITTER_PYTHON) 
     if not os.path.exists(slicer_python):
         print('Aborting: Could not find GridSplitter Python.')
-        print('Tried: %s' % (slicer_python,))
+        print(f'Tried: {slicer_python}')
         return False
         
     # Check validity of GRIDSPLITTER_SLICER
     slicer = os.path.abspath(config.GRIDSPLITTER_SLICER)
     if not os.path.exists(slicer):
         print('Aborting: Could not find GridSplitter.')
-        print('Tried: %s' % (slicer,))
+        print(f'Tried: {slicer}')
         return False
         
     # Run the splitter for this image
@@ -168,8 +167,8 @@ if __name__ == '__main__':
                 g.status = models.IMAGESTATUS_DONE
 
         except:
-            print("Unknown error while processing image: %s" % (g.filename,))
-            print("Error was: %s" % (sys.exc_info()[1],))
+            print(f"Unknown error while processing image: {g.filename}")
+            print(f"Error was: {sys.exc_info()[1]}")
             g.status = models.IMAGESTATUS_BAD
         finally:
             db.session.commit()

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 import os
@@ -20,7 +19,7 @@ if __name__ == '__main__':
                 os.mkdir(newdir)
             except OSError:
                 print("Unable to create data directory: " + newdir)
-                print("Error was: %s" % (sys.exc_info()[1],))
+                print(f"Error was: {sys.exc_info()[1]}")
                 exit(1)
         if not os.path.exists(newdir):  # Make sure it's there now
             print("Unable to find or create data directory: " + newdir)

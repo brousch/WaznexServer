@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 import os
@@ -22,7 +21,7 @@ class ImageLevel (db.Model):
         self.desc = desc
     
     def __repr__(self):
-        return '<id:{} {}>'.format(self.id, self.desc)
+        return f'<id:{self.id} {self.desc}>'
 
 
 # Image Statuses
@@ -40,7 +39,7 @@ class ImageStatus (db.Model):
         self.desc = desc
     
     def __repr__(self):
-        return '<id:{} {}>'.format(self.id, self.desc)
+        return f'<id:{self.id} {self.desc}>'
 
 
 class GridItem(db.Model):

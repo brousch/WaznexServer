@@ -289,7 +289,7 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
                     rightDot = rightRowDots[row + 1]
                     rowVec = (dots[rightDot][0] - dots[leftDot][0], dots[rightDot][1] - dots[leftDot][1])
                 except:
-                    print(("rightRowDots: {}".format(rightRowDots)))
+                    print(f"rightRowDots: {rightRowDots}")
                 
                 for col, topDot in enumerate(topColumnDots[1:-1]):
                     # Generate a column-wide vector
