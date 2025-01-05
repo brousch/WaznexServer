@@ -218,7 +218,7 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
     
     # Downsize the search space to speed things up and make the search
     # more accurate
-    imageSearch = imageLuminance.resize(searchSize, Image.ANTIALIAS)
+    imageSearch = imageLuminance.resize(searchSize, Image.LANCZOS)
     
     # Find all of the dots in the image
     dots = TransformDots(FindDots(imageSearch), imageSearch, imageOriginal)
@@ -288,8 +288,8 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid = None):
                 try:# Generate a row-wide vector
                     rightDot = rightRowDots[row + 1]
                     rowVec = (dots[rightDot][0] - dots[leftDot][0], dots[rightDot][1] - dots[leftDot][1])
-                except:
-                    print("rightRowDots: {}".format(rightRowDots))
+                except Exception:
+                    print(f"rightRowDots: {rightRowDots}")
                 
                 for col, topDot in enumerate(topColumnDots[1:-1]):
                     # Generate a column-wide vector
@@ -329,14 +329,14 @@ if(__name__ == "__main__"):
     # Parse parameters
     if(len(sys.argv) <= 1 or sys.argv[1] == "--help"):
         print("Usage: slice.py inputfile [color [outputdir [width height]]]")
-        print
+        print()
         print("inputfile = The input image file")
         print("color     = The dot color to search for: 0 = Red, 1 = Green, 2 = Blue")
         print("outputdir = The directory to output slices to.  Defaults to")
         print("            a directory with the same name as the input file.")
         print("width     = Desired width, in pixels, of output image.")
         print("height    = Desired height, in pixels, of output image.")
-        print
+        print()
         print("Exit status for this  script is the number of slices output.")
         exit(0)
     

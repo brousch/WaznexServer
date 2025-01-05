@@ -1,12 +1,16 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 
 import os
-from flask_sqlalchemy import SQLAlchemy
-from waznexserver import app
-from waznexserver import db
 
+from flask import current_app as app  # is this misleading?
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+
+
+class Base(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=Base)
 
 # Image Levels (basic thumbnails, full grid)
 IMAGELEVEL_NOTHING = -1
@@ -22,7 +26,7 @@ class ImageLevel (db.Model):
         self.desc = desc
     
     def __repr__(self):
-        return '<id:{} {}>'.format(self.id, self.desc)
+        return f'<id:{self.id} {self.desc}>'
 
 
 # Image Statuses
@@ -40,7 +44,7 @@ class ImageStatus (db.Model):
         self.desc = desc
     
     def __repr__(self):
-        return '<id:{} {}>'.format(self.id, self.desc)
+        return f'<id:{self.id} {self.desc}>'
 
 
 class GridItem(db.Model):

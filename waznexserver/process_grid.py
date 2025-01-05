@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-
 
 import os
 import shutil
 import subprocess
 import sys
-from waznexserver import app
-from waznexserver import db
-import models
-import config
+import traceback
+
 from PIL import Image
+from flask import current_app as app  # is this misleading?
+
+import config
+import models
+from models import db
+from waznexserver import create_app
 
 
 def run_basic_transforms(grid_image):
@@ -19,47 +20,47 @@ def run_basic_transforms(grid_image):
         # Copy orig and create downsized version (1024x1024 max)
         app.logger.info('Generating downsized image for ' +
                         grid_image.filename)
-        shutil.copy2(grid_image.get_image_path(), 
+        shutil.copy2(grid_image.get_image_path(),
                      grid_image.get_downsized_path())
         downs = Image.open(grid_image.get_downsized_path())
-        downs.thumbnail((1024,1024), Image.ANTIALIAS)
+        downs.thumbnail((1024,1024), Image.LANCZOS)
         downs.save(grid_image.get_downsized_path(), "JPEG")
-        
+
         # Copy orig and create thumbnail version
         app.logger.info('Generating thumbnail for ' + grid_image.filename)
-        shutil.copy2(grid_image.get_image_path(), 
+        shutil.copy2(grid_image.get_image_path(),
                      grid_image.get_thumbnail_path())
         thumb = Image.open(grid_image.get_thumbnail_path())
-        thumb.thumbnail((316,316), Image.ANTIALIAS)
+        thumb.thumbnail((316,316), Image.LANCZOS)
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
-    
-    except:
-        print "Error while performing basic transforms on %s" % (
-                                                          grid_image.filename,)
-        print "Error was: %s" % (sys.exc_info()[1],)
+
+    except Exception:
+        print("Error while performing basic transforms on {}".format(
+                                                          grid_image.filename))
+        traceback.print_exc()
         return False
-    
+
     return True
 
 
 def run_gridsplitter(grid_image):
     # Check that configuration variables exist
     if not config.GRIDSPLITTER_PYTHON or not config.GRIDSPLITTER_SLICER:
-        print "GridSplitter is not configured. Check your config.py."
+        print("GridSplitter is not configured. Check your config.py.")
         return False
         
     # Check validity of GRIDSPLITTER_PYTHON
     slicer_python = os.path.abspath(config.GRIDSPLITTER_PYTHON) 
     if not os.path.exists(slicer_python):
-        print 'Aborting: Could not find GridSplitter Python.'
-        print 'Tried: %s' % (slicer_python,)
+        print('Aborting: Could not find GridSplitter Python.')
+        print(f'Tried: {slicer_python}')
         return False
         
     # Check validity of GRIDSPLITTER_SLICER
     slicer = os.path.abspath(config.GRIDSPLITTER_SLICER)
     if not os.path.exists(slicer):
-        print 'Aborting: Could not find GridSplitter.'
-        print 'Tried: %s' % (slicer,)
+        print('Aborting: Could not find GridSplitter.')
+        print(f'Tried: {slicer}')
         return False
         
     # Run the splitter for this image
@@ -104,9 +105,9 @@ def verify_gridsplitter(grid_image):
     max_ct = config.GRIDSPLITTER_MAX_COLS *config.GRIDSPLITTER_MAX_ROWS
     cell_ct = len(cells)
     if (cell_ct < min_ct) or (cell_ct > max_ct):
-        print("Cell count was out of range %d-%d:%d") % (min_ct, 
+        print(("Cell count was out of range %d-%d:%d") % (min_ct, 
                                                          max_ct, 
-                                                         cell_ct)
+                                                         cell_ct))
         return False
     # Verify each cell is within MIN and MAX rows and cols
     high_col = -1
@@ -117,7 +118,7 @@ def verify_gridsplitter(grid_image):
         row = int(parts[2])
         if col < 0 or col > config.GRIDSPLITTER_MAX_COLS or\
             row < 0 or row > config.GRIDSPLITTER_MAX_ROWS:
-            print "Column or row count was incorrect"   
+            print("Column or row count was incorrect")   
             return False
         if col > high_col:
             high_col = col
@@ -125,7 +126,7 @@ def verify_gridsplitter(grid_image):
             high_row = row
     if (high_col < (config.GRIDSPLITTER_MIN_COLS - 1)) or\
        (high_row < (config.GRIDSPLITTER_MIN_ROWS - 1)):
-        print "Too few rows or columns found."   
+        print("Too few rows or columns found.")   
         return False
     
     # TODO Verify images form an actual grid
@@ -133,8 +134,7 @@ def verify_gridsplitter(grid_image):
     return True
     
 
-if __name__ == '__main__':
-    # Find all of the images that are new
+def process_new_images():
     new_grids = db.session.query(models.GridItem).\
                 filter_by(status=models.IMAGESTATUS_NEW).\
                 order_by('upload_dt').all()
@@ -148,29 +148,34 @@ if __name__ == '__main__':
             basic_result = run_basic_transforms(g)
             if basic_result:
                 g.level = models.IMAGELEVEL_BASIC
-                print "Basic OK"
+                print("Basic OK")
             else:
                 g.status = models.IMAGESTATUS_BAD
-                print "Basic Failed"
+                print("Basic Failed")
             
             # Do advanced image transforms
             if basic_result and config.ENABLE_GRIDSPLITTER:
                 gs_result = run_gridsplitter(g)
                 if gs_result:
                     g.level = models.IMAGELEVEL_GRID
-                    print "GridSplitter OK"
+                    print("GridSplitter OK")
                 else:
                     # Uncomment to mark it bad
                     #g.status = models.IMAGESTATUS_BAD
-                    print "GridSplitter Failed"
+                    print("GridSplitter Failed")
                     
             if basic_result:
                 g.status = models.IMAGESTATUS_DONE
 
-        except:
-            print "Unknown error while processing image: %s" % (g.filename,)
-            print "Error was: %s" % (sys.exc_info()[1],)
+        except Exception:
+            print(f"Unknown error while processing image: {g.filename}")
+            traceback.print_exc()
             g.status = models.IMAGESTATUS_BAD
         finally:
             db.session.commit()
-            
+
+
+if __name__ == '__main__':
+    app = create_app()
+    with app.app_context():
+        process_new_images()

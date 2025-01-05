@@ -6,7 +6,7 @@
 import os
 from poster.encode import multipart_encode
 from poster.streaminghttp import register_openers
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 UPLOADS_PATH = "/home/ben/Projects/WaznexServer/waznexserver/tests/hammeruploads/uploads"
 UPLOAD_URL = "http://waznex-dev.clusterbleep.net/upload/"
@@ -16,14 +16,13 @@ def upload_images():
     image_list = os.listdir(UPLOADS_PATH)
     for image in image_list:
         try:
-            print "Uploading: " + image
+            print("Uploading: " + image)
             register_openers()
             datagen, headers = multipart_encode({"file": open(UPLOADS_PATH + '/' + image, "rb")})
-            request = urllib2.Request(UPLOAD_URL, datagen, headers)
-            print urllib2.urlopen(request).read()
-        except:
+            request = urllib.request.Request(UPLOAD_URL, datagen, headers)
+            print(urllib.request.urlopen(request).read())
+        except Exception:
             pass # Skip files that don't work
         
 if __name__ == '__main__':
     upload_images()
-    

@@ -70,7 +70,7 @@ run_production:
 	sudo service waznex-process-grid restart
 	sudo service nginx restart
 
-DOCKER_BUILD := docker build --platform linux/amd64 -t waznexserver .
+DOCKER_BUILD := docker build -t waznexserver .
 
 .PHONY: docker_build
 docker_build:
@@ -79,9 +79,13 @@ docker_build:
 .PHONY: docker_dev
 docker_dev:
 	# (re)builds the latest image and runs it
-	docker run --rm --platform linux/amd64 -p 8080:8080 -it $(shell $(DOCKER_BUILD) -q)
+	docker run --rm -p 8080:8080 -it $(shell $(DOCKER_BUILD) -q)
 
 .PHONY: docker_dev_process
 docker_dev_process:
 	# connects to existing docker_dev and runs the processing script
 	docker exec -it $(shell docker ps -q --filter ancestor=waznexserver) waznexserver/process_grid.py
+
+.PHONY: update_deps
+update_deps:
+	uv pip compile requirements.in -o requirements.txt

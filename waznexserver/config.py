@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 # Configuration
@@ -12,10 +11,10 @@ SQLALCHEMY_ECHO = False
 IMAGE_FOLDER = os.path.join(DATA_FOLDER, 'images')
 DOWNSIZED_FOLDER = os.path.join(DATA_FOLDER, 'downsized')
 THUMBNAIL_FOLDER = os.path.join(DATA_FOLDER, 'thumbnails')
-ALLOWED_EXTENSIONS = set(['png',  'PNG',
+ALLOWED_EXTENSIONS = {'png',  'PNG',
                           'jpg',  'JPG',
                           'jpeg', 'JPEG',
-                          'gif',  'GIF'])
+                          'gif',  'GIF'}
 FILE_NAME_DT_FORMAT = '%Y-%m-%dT%H%M%S'
 PRETTY_DT_FORMAT = '%m/%d/%Y %I:%M:%S %p'
 ENABLE_GRIDSPLITTER = True

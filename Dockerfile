@@ -1,5 +1,5 @@
-# Bionic
-FROM ubuntu:18.04
+FROM ubuntu:24.04
+# 24.04 provides python 3.12
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -11,14 +11,15 @@ ENV PYTHON=$VENV/bin/python
 
 RUN mkdir $BASE
 
-RUN apt-get update
-RUN apt-get install -y nginx python-dev libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev libtiff5 libtiff5-dev libwebp6 libwebp-dev zlib1g-dev run-one
-RUN apt-get install -y curl  \
-    && curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python  \
-    && pip --version
-RUN pip install -U pip
-RUN python -m pip install -U virtualenv
-RUN virtualenv -p python2.7 $VENV
+RUN apt-get update && apt-get install -y  \
+    nginx \
+    run-one \
+    python3 \
+    python3-venv \
+    python-is-python3  \
+    && rm -rf /var/lib/apt/lists/*
+RUN python -m venv $VENV
+RUN $PIP install --upgrade pip
 
 WORKDIR $CODE
 
