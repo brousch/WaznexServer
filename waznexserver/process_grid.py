@@ -3,7 +3,6 @@
 import os
 import shutil
 import subprocess
-import sys
 import traceback
 
 from PIL import Image
@@ -32,7 +31,7 @@ def run_basic_transforms(grid_image):
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
 
     except Exception:
-        print("Error while performing basic transforms on {}".format(grid_image.filename))
+        print(f"Error while performing basic transforms on {grid_image.filename}")
         traceback.print_exc()
         return False
 

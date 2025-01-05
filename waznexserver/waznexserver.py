@@ -117,10 +117,7 @@ def upload_file():
             upload_ts = datetime.datetime.utcnow()
             filename_name, filename_ext = os.path.splitext(f.filename)
             clean_filename = filename_name.replace('.', '') + filename_ext
-            filename = ('%sF%s') % (
-                upload_ts.strftime(app.config['FILE_NAME_DT_FORMAT']),
-                secure_filename(clean_filename),
-            )
+            filename = upload_ts.strftime(app.config["FILE_NAME_DT_FORMAT"]) + 'F' + secure_filename(clean_filename)
             f.save(os.path.join(app.config['IMAGE_FOLDER'], filename))
             # Initialize GridItem and add it to the list
             grid_item = models.GridItem(upload_ts, filename)

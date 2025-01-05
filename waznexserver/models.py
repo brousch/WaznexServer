@@ -64,7 +64,7 @@ class GridItem(db.Model):
         self.level = IMAGELEVEL_NOTHING
 
     def __repr__(self):
-        return '<id:{} filename:{} status:{} level:{}>'.format(self.id, self.filename, self.status, self.level)
+        return f'<id:{self.id} filename:{self.filename} status:{self.status} level:{self.level}>'
 
     def get_thumbnail_path(self):
         return os.path.join(app.config['THUMBNAIL_FOLDER'], self.filename)
@@ -101,6 +101,4 @@ class GridCell(db.Model):
         self.row = row
 
     def __repr__(self):
-        return '<id:{} part_of:{} filename: {} col:{} row:{}>'.format(
-            self.id, self.grid_item, self.filename, self.col, self.row
-        )
+        return f'<id:{self.id} part_of:{self.grid_item} filename: {self.filename} col:{self.col} row:{self.row}>'

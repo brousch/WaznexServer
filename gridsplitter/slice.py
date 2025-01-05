@@ -27,8 +27,6 @@
 
 
 from PIL import Image
-from PIL import ImageChops
-from PIL import ImageFilter
 from PIL import ImageDraw
 from PIL import ImageOps
 from math import hypot
@@ -199,7 +197,7 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid=None):
 
         # Keep track of the bottom-left point of the first quad so we can return it later
         blPoint = None
-        if len(quadIndices) > 1 and quadIndices[1] != None:
+        if len(quadIndices) > 1 and quadIndices[1] is not None:
             blPoint = quadIndices[1]
 
         # Start looking for more of 'em
