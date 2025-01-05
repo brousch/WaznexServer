@@ -85,3 +85,7 @@ docker_dev:
 docker_dev_process:
 	# connects to existing docker_dev and runs the processing script
 	docker exec -it $(shell docker ps -q --filter ancestor=waznexserver) waznexserver/process_grid.py
+
+.PHONY: update_deps
+update_deps:
+	uv pip compile requirements.in -o requirements.txt

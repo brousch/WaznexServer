@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy
+gunicorn
+Jinja2
+Pillow
+SQLAlchemy
+timeago
+Werkzeug
