@@ -4,7 +4,7 @@
 
 import os
 import datetime
-import config
+from . import config
 from flask import Flask
 from flask import flash
 from flask import redirect
@@ -25,7 +25,7 @@ app.config.from_object(config)
 app.config.from_envvar('WAZNEXSERVER_SETTINGS', silent=True)
 
 db = SQLAlchemy(app)
-import models
+from . import models
 
 
 # https://stackoverflow.com/a/64076444/

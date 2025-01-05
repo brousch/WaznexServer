@@ -7,10 +7,10 @@ import os
 import shutil
 import subprocess
 import sys
-from waznexserver import app
-from waznexserver import db
-import models
-import config
+from .waznexserver import app
+from .waznexserver import db
+from . import models
+from . import config
 from PIL import Image
 
 
@@ -34,9 +34,9 @@ def run_basic_transforms(grid_image):
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
     
     except:
-        print "Error while performing basic transforms on %s" % (
-                                                          grid_image.filename,)
-        print "Error was: %s" % (sys.exc_info()[1],)
+        print("Error while performing basic transforms on %s" % (
+                                                          grid_image.filename,))
+        print("Error was: %s" % (sys.exc_info()[1],))
         return False
     
     return True
@@ -45,21 +45,21 @@ def run_basic_transforms(grid_image):
 def run_gridsplitter(grid_image):
     # Check that configuration variables exist
     if not config.GRIDSPLITTER_PYTHON or not config.GRIDSPLITTER_SLICER:
-        print "GridSplitter is not configured. Check your config.py."
+        print("GridSplitter is not configured. Check your config.py.")
         return False
         
     # Check validity of GRIDSPLITTER_PYTHON
     slicer_python = os.path.abspath(config.GRIDSPLITTER_PYTHON) 
     if not os.path.exists(slicer_python):
-        print 'Aborting: Could not find GridSplitter Python.'
-        print 'Tried: %s' % (slicer_python,)
+        print('Aborting: Could not find GridSplitter Python.')
+        print('Tried: %s' % (slicer_python,))
         return False
         
     # Check validity of GRIDSPLITTER_SLICER
     slicer = os.path.abspath(config.GRIDSPLITTER_SLICER)
     if not os.path.exists(slicer):
-        print 'Aborting: Could not find GridSplitter.'
-        print 'Tried: %s' % (slicer,)
+        print('Aborting: Could not find GridSplitter.')
+        print('Tried: %s' % (slicer,))
         return False
         
     # Run the splitter for this image
@@ -104,9 +104,9 @@ def verify_gridsplitter(grid_image):
     max_ct = config.GRIDSPLITTER_MAX_COLS *config.GRIDSPLITTER_MAX_ROWS
     cell_ct = len(cells)
     if (cell_ct < min_ct) or (cell_ct > max_ct):
-        print("Cell count was out of range %d-%d:%d") % (min_ct, 
+        print(("Cell count was out of range %d-%d:%d") % (min_ct, 
                                                          max_ct, 
-                                                         cell_ct)
+                                                         cell_ct))
         return False
     # Verify each cell is within MIN and MAX rows and cols
     high_col = -1
@@ -117,7 +117,7 @@ def verify_gridsplitter(grid_image):
         row = int(parts[2])
         if col < 0 or col > config.GRIDSPLITTER_MAX_COLS or\
             row < 0 or row > config.GRIDSPLITTER_MAX_ROWS:
-            print "Column or row count was incorrect"   
+            print("Column or row count was incorrect")   
             return False
         if col > high_col:
             high_col = col
@@ -125,7 +125,7 @@ def verify_gridsplitter(grid_image):
             high_row = row
     if (high_col < (config.GRIDSPLITTER_MIN_COLS - 1)) or\
        (high_row < (config.GRIDSPLITTER_MIN_ROWS - 1)):
-        print "Too few rows or columns found."   
+        print("Too few rows or columns found.")   
         return False
     
     # TODO Verify images form an actual grid
@@ -148,28 +148,28 @@ if __name__ == '__main__':
             basic_result = run_basic_transforms(g)
             if basic_result:
                 g.level = models.IMAGELEVEL_BASIC
-                print "Basic OK"
+                print("Basic OK")
             else:
                 g.status = models.IMAGESTATUS_BAD
-                print "Basic Failed"
+                print("Basic Failed")
             
             # Do advanced image transforms
             if basic_result and config.ENABLE_GRIDSPLITTER:
                 gs_result = run_gridsplitter(g)
                 if gs_result:
                     g.level = models.IMAGELEVEL_GRID
-                    print "GridSplitter OK"
+                    print("GridSplitter OK")
                 else:
                     # Uncomment to mark it bad
                     #g.status = models.IMAGESTATUS_BAD
-                    print "GridSplitter Failed"
+                    print("GridSplitter Failed")
                     
             if basic_result:
                 g.status = models.IMAGESTATUS_DONE
 
         except:
-            print "Unknown error while processing image: %s" % (g.filename,)
-            print "Error was: %s" % (sys.exc_info()[1],)
+            print("Unknown error while processing image: %s" % (g.filename,))
+            print("Error was: %s" % (sys.exc_info()[1],))
             g.status = models.IMAGESTATUS_BAD
         finally:
             db.session.commit()

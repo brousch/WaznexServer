@@ -4,8 +4,8 @@
 
 import os
 from flask_sqlalchemy import SQLAlchemy
-from waznexserver import app
-from waznexserver import db
+from .waznexserver import app
+from .waznexserver import db
 
 
 # Image Levels (basic thumbnails, full grid)
