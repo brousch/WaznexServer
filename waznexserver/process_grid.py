@@ -2,7 +2,6 @@
 
 import os
 import shutil
-import subprocess
 import traceback
 
 from PIL import Image
@@ -12,6 +11,7 @@ from . import config
 from . import models
 from .models import db
 from .waznexserver import create_app
+from . import slice
 
 
 def run_basic_transforms(grid_image):
@@ -39,36 +39,12 @@ def run_basic_transforms(grid_image):
 
 
 def run_gridsplitter(grid_image):
-    # Check that configuration variables exist
-    if not config.GRIDSPLITTER_PYTHON or not config.GRIDSPLITTER_SLICER:
-        print("GridSplitter is not configured. Check your config.py.")
-        return False
-
-    # Check validity of GRIDSPLITTER_PYTHON
-    slicer_python = os.path.abspath(config.GRIDSPLITTER_PYTHON)
-    if not os.path.exists(slicer_python):
-        print('Aborting: Could not find GridSplitter Python.')
-        print(f'Tried: {slicer_python}')
-        return False
-
-    # Check validity of GRIDSPLITTER_SLICER
-    slicer = os.path.abspath(config.GRIDSPLITTER_SLICER)
-    if not os.path.exists(slicer):
-        print('Aborting: Could not find GridSplitter.')
-        print(f'Tried: {slicer}')
-        return False
-
     # Run the splitter for this image
-    ret_val = subprocess.call(
-        [
-            slicer_python,
-            slicer,
-            grid_image.get_image_path(),
-            config.GRIDSPLITTER_COLOR,
-            grid_image.get_split_path(),
-            config.GRIDSPLITTER_CELL_WIDTH,
-            config.GRIDSPLITTER_CELL_HEIGHT,
-        ]
+    ret_val = slice.main(
+        grid_image.get_image_path(),
+        config.GRIDSPLITTER_COLOR,
+        grid_image.get_split_path(),
+        (config.GRIDSPLITTER_CELL_WIDTH, config.GRIDSPLITTER_CELL_HEIGHT),
     )
     # if ret_val:
     # TODO Give slicer.py return values meaningful assignments
@@ -145,7 +121,7 @@ def process_new_images():
                 print("Basic Failed")
 
             # Do advanced image transforms
-            if basic_result and config.ENABLE_GRIDSPLITTER:
+            if basic_result:
                 gs_result = run_gridsplitter(g)
                 if gs_result:
                     g.level = models.IMAGELEVEL_GRID
@@ -155,7 +131,6 @@ def process_new_images():
                     # g.status = models.IMAGESTATUS_BAD
                     print("GridSplitter Failed")
 
-            if basic_result:
                 g.status = models.IMAGESTATUS_DONE
 
         except Exception:

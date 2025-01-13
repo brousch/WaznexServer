@@ -37,15 +37,11 @@ from os import path
 from os import sep
 from math import pi
 
-# Default configuration
-# 0 = red, 1 = green, 2 = blue
-channel = 2
+
 # The size of the search space - smaller is faster and less accurate
 searchSize = (160, 160)
 # [0...100] Percentage each pixel has to match the desired color to be considered a match
 colorThreshold = 40
-# Each square is saved as this size
-outputSize = (320, 207)
 
 
 # Open the source file and pick out the color to search for
@@ -189,7 +185,7 @@ def FindDotsInRanges(dots, tlDotIndex, angles, tolerance, minDists):
 
 
 # Finds and slices squares from an image using a dot pattern
-def SliceSquares(imageOriginal, channel, drawDebuggingGrid=None):
+def SliceSquares(imageOriginal, channel, drawDebuggingGrid, outputSize):
     # Finds a row of images from a top-left corner
     def FindRow(dots, tlDotIndex, rowNum):
         # Find the first quad
@@ -403,6 +399,33 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid=None):
     return squares
 
 
+
+def main(inputFilename: str, channel: int, outputDir: str, outputSize: tuple[int, int]):
+    # Create the output directory if it doesn't already exist
+    if not path.exists(outputDir):
+        mkdir(outputDir)
+
+    # Downsize the search area to something a little more reasonable
+    imageOriginal = GetSource(inputFilename)
+    imageDebuggingGrid = GetColor(imageOriginal, channel).convert("RGB")
+    drawDebuggingGrid = ImageDraw.Draw(imageDebuggingGrid)
+
+    # Find all squares within the image
+    squares = SliceSquares(GetSource(inputFilename), channel, drawDebuggingGrid, outputSize)
+
+    # Save them all out
+    numSlices = 0
+    for y in range(0, len(squares)):
+        for x in range(0, len(squares[y])):
+            squares[y][x].save(outputDir + sep + "out-" + str(x) + "-" + str(y) + ".jpg")
+            numSlices = numSlices + 1
+
+    # Save out a debugging image
+    imageDebuggingGrid.save(outputDir + sep + "lines.png")
+    # Return the number of images saved
+    return numSlices
+
+
 if __name__ == "__main__":
     # Parse parameters
     if len(sys.argv) <= 1 or sys.argv[1] == "--help":
@@ -436,27 +459,7 @@ if __name__ == "__main__":
     # Width/height
     if len(sys.argv) >= 5:
         outputSize = (int(sys.argv[4]), int(sys.argv[5]))
+    else:
+        outputSize = (320, 207)
 
-    # Create the output directory if it doesn't already exist
-    if not path.exists(outputDir):
-        mkdir(outputDir)
-
-    # Downsize the search area to something a little more reasonable
-    imageOriginal = GetSource(inputFilename)
-    imageDebuggingGrid = GetColor(imageOriginal, channel).convert("RGB")
-    drawDebuggingGrid = ImageDraw.Draw(imageDebuggingGrid)
-
-    # Find all squares within the image
-    squares = SliceSquares(GetSource(inputFilename), channel, drawDebuggingGrid)
-
-    # Save them all out
-    numSlices = 0
-    for y in range(0, len(squares)):
-        for x in range(0, len(squares[y])):
-            squares[y][x].save(outputDir + sep + "out-" + str(x) + "-" + str(y) + ".jpg")
-            numSlices = numSlices + 1
-
-    # Save out a debugging image
-    imageDebuggingGrid.save(outputDir + sep + "lines.png")
-    # Return the number of images saved
-    exit(numSlices)
+    exit(main(inputFilename, channel, outputDir, outputSize))
