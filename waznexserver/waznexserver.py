@@ -21,6 +21,7 @@ from werkzeug.security import safe_join
 from . import config
 from . import models
 from .models import db
+from .process_grid import process_new
 
 main = Blueprint('main', __name__)
 
@@ -86,7 +87,7 @@ def show_image(filename):
 
 @main.route('/sliced/<dirname>/<filename>')
 def show_sliced(dirname, filename):
-    app.logger.info('Serving cell image through Flask: ' + filename)
+    # app.logger.info('Serving cell image through Flask: ' + filename)
     return send_from_directory(app.config['SPLIT_FOLDER'], safe_join(dirname, filename))
 
 
@@ -118,14 +119,22 @@ def upload_file():
             filename_name, filename_ext = os.path.splitext(f.filename)
             clean_filename = filename_name.replace('.', '') + filename_ext
             filename = upload_ts.strftime(app.config["FILE_NAME_DT_FORMAT"]) + 'F' + secure_filename(clean_filename)
+            app.logger.info('Adding image: ' + filename)
             f.save(os.path.join(app.config['IMAGE_FOLDER'], filename))
             # Initialize GridItem and add it to the list
             grid_item = models.GridItem(upload_ts, filename)
             db.session.add(grid_item)
             grid_item.status = models.IMAGESTATUS_NEW
             db.session.commit()
-            app.logger.info('Adding image: ' + filename)
-            flash('Upload successful. Refresh to see it soon', "message-upload-success")
+
+            app.logger.info('Processing image: ' + filename)
+            process_status = process_new(grid_item)
+
+            app.logger.info('Finished image: ' + filename)
+            if process_status == models.IMAGESTATUS_DONE:
+                flash('Upload successful', "message-upload-success")
+            else:
+                flash('Image processing failed.  Make sure all the blue dots are in the right places', "message-upload-fail")
         else:
             flash('Upload failed - invalid file extension.', "message-upload-fail")
     return redirect(url_for('main.index'))

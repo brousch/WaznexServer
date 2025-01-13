@@ -53,7 +53,6 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 ## Development
 
 1. `make docker_dev` or `make docker_dev_debug` if you need flask DEBUG mode.  Or run `python -m waznexserver.waznexserver` in your own Python environment
-2. after uploading a file `make docker_dev_process` or `python -m waznexserver.process_grid`
 
 ## Production
 

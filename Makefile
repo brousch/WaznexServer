@@ -35,10 +35,6 @@ docker_dev: docker_build
 docker_dev_debug: docker_build
 	docker run --rm -p 8080:8080 -it $(shell $(DOCKER_BUILD) -q) python -m waznexserver.waznexserver
 
-.PHONY: docker_dev_process
-docker_dev_process:
-	# connects to existing docker_dev and runs the processing script
-	docker exec -it $(shell docker ps -q --filter ancestor=waznexserver) python -m waznexserver.process_grid
 
 .PHONY: update_deps
 update_deps:

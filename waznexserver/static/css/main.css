@@ -44,7 +44,6 @@ div.message-upload-fail, div.message-upload-success, div.message-removed-bad {
     margin: 0 0 0.1em 0;
     padding: 0.25em 0.5em 0.25em 0.5em;
     text-align: center;
-    width: 100%;
 }
  
 div.message-upload-fail {

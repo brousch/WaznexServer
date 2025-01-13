@@ -44,7 +44,7 @@ CMD [ \
     # for direct access:
     "--bind", ":8080", \
     "--umask", "007", \
-    "--access-logfile", "-", \
+#    "--access-logfile", "-", \
     "--capture-output", \
     "waznexserver.waznexserver:create_app()" \
 ]

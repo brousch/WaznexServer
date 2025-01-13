@@ -10,7 +10,6 @@ from flask import current_app as app  # is this misleading?
 from . import config
 from . import models
 from .models import db
-from .waznexserver import create_app
 from . import slice
 
 
@@ -107,41 +106,48 @@ def process_new_images():
     new_grids = db.session.query(models.GridItem).filter_by(status=models.IMAGESTATUS_NEW).order_by('upload_dt').all()
 
     for g in new_grids:
-        db.session.add(g)
-        g.status = models.IMAGESTATUS_IN_WORK
+        process_new(g)
 
-        try:
-            # Do basic image transforms
-            basic_result = run_basic_transforms(g)
-            if basic_result:
-                g.level = models.IMAGELEVEL_BASIC
-                print("Basic OK")
-            else:
-                g.status = models.IMAGESTATUS_BAD
-                print("Basic Failed")
+def process_new(g: models.GridItem):
+    db.session.add(g)
+    g.status = models.IMAGESTATUS_IN_WORK
+
+    try:
+        # Do basic image transforms
+        basic_result = run_basic_transforms(g)
+        if basic_result:
+            g.level = models.IMAGELEVEL_BASIC
+            print("Basic OK")
 
             # Do advanced image transforms
-            if basic_result:
-                gs_result = run_gridsplitter(g)
-                if gs_result:
-                    g.level = models.IMAGELEVEL_GRID
-                    print("GridSplitter OK")
-                else:
-                    # Uncomment to mark it bad
-                    # g.status = models.IMAGESTATUS_BAD
-                    print("GridSplitter Failed")
+            gs_result = run_gridsplitter(g)
+            if gs_result:
+                g.level = models.IMAGELEVEL_GRID
+                print("GridSplitter OK")
+            else:
+                # Uncomment to mark it bad
+                # g.status = models.IMAGESTATUS_BAD
+                print("GridSplitter Failed")
 
-                g.status = models.IMAGESTATUS_DONE
+            g.status = models.IMAGESTATUS_DONE
 
-        except Exception:
-            print(f"Unknown error while processing image: {g.filename}")
-            traceback.print_exc()
+        else:
             g.status = models.IMAGESTATUS_BAD
-        finally:
-            db.session.commit()
+            print("Basic Failed")
+
+    except Exception:
+        print(f"Unknown error while processing image: {g.filename}")
+        traceback.print_exc()
+        g.status = models.IMAGESTATUS_BAD
+    finally:
+        db.session.commit()
+
+    return g.status
 
 
 if __name__ == '__main__':
+    from .waznexserver import create_app
+
     app = create_app()
     with app.app_context():
         process_new_images()
