@@ -8,10 +8,10 @@ import traceback
 from PIL import Image
 from flask import current_app as app  # is this misleading?
 
-import config
-import models
-from models import db
-from waznexserver import create_app
+from . import config
+from . import models
+from .models import db
+from .waznexserver import create_app
 
 
 def run_basic_transforms(grid_image):

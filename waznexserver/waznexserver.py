@@ -18,9 +18,9 @@ import timeago
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 
-import config
-import models
-from models import db
+from . import config
+from . import models
+from .models import db
 
 main = Blueprint('main', __name__)
 

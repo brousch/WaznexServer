@@ -3,10 +3,10 @@
 import os
 import traceback
 
-import config
-import models
-from models import db
-from waznexserver import create_app
+from . import config
+from . import models
+from .models import db
+from .waznexserver import create_app
 
 
 def create_data_dirs():

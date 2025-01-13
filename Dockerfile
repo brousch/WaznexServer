@@ -12,7 +12,6 @@ ENV PYTHON=$VENV/bin/python
 RUN mkdir $BASE
 
 RUN apt-get update && apt-get install -y  \
-    nginx \
     run-one \
     python3 \
     python3-venv \
@@ -30,10 +29,22 @@ COPY . $CODE
 
 ENV PATH=$VENV/bin:$PATH
 
-RUN waznexserver/init_data.py
+RUN $PYTHON -m waznexserver.init_data
 
 EXPOSE 8080
 
 # using array for CMD avoids shell intermediary, so that Ctrl-C works
-RUN chmod +x waznexserver/waznexserver.py
-CMD ["waznexserver/waznexserver.py"]
+CMD [ \
+    "gunicorn", \
+    "--workers", "2", \
+    "--threads", "4", \
+    "--worker-tmp-dir", "/dev/shm", \
+    # for nginx:
+    "--bind", "unix:waznexserver.sock", \
+    # for direct access:
+    "--bind", ":8080", \
+    "--umask", "007", \
+    "--access-logfile", "-", \
+    "--capture-output", \
+    "waznexserver.waznexserver:create_app()" \
+]
