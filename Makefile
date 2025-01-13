@@ -23,10 +23,17 @@ DOCKER_BUILD := docker build -t waznexserver .
 docker_build:
 	$(DOCKER_BUILD)
 
+# (re)builds the latest image and runs it
+# the -q is necessary to get the container id, but then doesn't show build output
+# so we add docker_build as a make target.  Its all cached anyway so fast.
 .PHONY: docker_dev
-docker_dev:
-	# (re)builds the latest image and runs it
+docker_dev: docker_build
 	docker run --rm -p 8080:8080 -it $(shell $(DOCKER_BUILD) -q)
+
+# running with gunicorn (set in Dockerfile) won't use DEBUG mode, so this mode runs Flask's dev server
+.PHONY: docker_dev_debug
+docker_dev_debug: docker_build
+	docker run --rm -p 8080:8080 -it $(shell $(DOCKER_BUILD) -q) python -m waznexserver.waznexserver
 
 .PHONY: docker_dev_process
 docker_dev_process:
