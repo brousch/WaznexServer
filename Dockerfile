@@ -40,7 +40,7 @@ CMD [ \
     "--threads", "4", \
     "--worker-tmp-dir", "/dev/shm", \
     # for nginx:
-    "--bind", "unix:waznexserver.sock", \
+    "--bind", "unix:/opt/waznexserver/WaznexServer/waznexserver/data/waznexserver.sock", \
     # for direct access:
     "--bind", ":8080", \
     "--umask", "007", \

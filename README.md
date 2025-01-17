@@ -25,7 +25,7 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 4. `make docker_dev` (or run Docker commands from Makefile manually)
 5. Ctrl-C to stop it.  Re-run it if you make file changes (no shared volumes currently)
 
-## Production on Ubuntu 18.04 64bit
+## Production on an Ubuntu server
 
 1. SSH to server as root
 2. `apt update`
@@ -34,14 +34,9 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 5. `cd /opt/waznexserver`
 6. `git clone https://github.com/brousch/WaznexServer.git`
 7. `cd WaznexServer`
-8. `make install_system_requirements`
-9. `curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python`
-10. `make bootstrap_modern_python_tools`  # lol modern
-11. `make create_venv`
-12. `make init_data`
-13. `make init_production`
+8. `make init_production`
 
-# Configuration
+# Configuration (Optional)
 
 - Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
 - Modify the `templates/index.html` file to change the page title.
@@ -58,9 +53,9 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 1. SSH to server as root
 2. `cd /opt/waznexserver/WaznexServer`
-3. `make run_production`
-4. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
-5. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
+3. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
+4. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
+5. `make run_production`
 
 # Changelog
 
