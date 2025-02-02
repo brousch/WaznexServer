@@ -39,6 +39,7 @@ def run_basic_transforms(grid_image):
 
 def run_gridsplitter(grid_image):
     # Run the splitter for this image
+    app.logger.info("Starting to slice: " + grid_image.filename)
     ret_val = slice.main(
         grid_image.get_image_path(),
         config.GRIDSPLITTER_COLOR,
@@ -53,6 +54,8 @@ def run_gridsplitter(grid_image):
     # Run verification and sanity checks
     if not verify_gridsplitter(grid_image):
         return False
+
+    app.logger.info("Slice logic done, now saving to db: " + grid_image.filename)
 
     # Build Cell Grid
     grid_dir = grid_image.get_split_path()
