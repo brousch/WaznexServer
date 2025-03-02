@@ -407,11 +407,12 @@ def main(inputFilename: str, channel: int, outputDir: str, outputSize: tuple[int
 
     # Downsize the search area to something a little more reasonable
     imageOriginal = GetSource(inputFilename)
+    imageOriginal = imageOriginal.convert("RGB")
     imageDebuggingGrid = GetColor(imageOriginal, channel).convert("RGB")
     drawDebuggingGrid = ImageDraw.Draw(imageDebuggingGrid)
 
     # Find all squares within the image
-    squares = SliceSquares(GetSource(inputFilename), channel, drawDebuggingGrid, outputSize)
+    squares = SliceSquares(imageOriginal, channel, drawDebuggingGrid, outputSize)
 
     # Save them all out
     numSlices = 0

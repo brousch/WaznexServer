@@ -27,6 +27,7 @@ def run_basic_transforms(grid_image):
         shutil.copy2(grid_image.get_image_path(), grid_image.get_thumbnail_path())
         thumb = Image.open(grid_image.get_thumbnail_path())
         thumb.thumbnail((316, 316), Image.LANCZOS)
+        thumb = thumb.convert('RGB')  # in case PNG with alpha was uploaded
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
 
     except Exception:
