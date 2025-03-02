@@ -30,10 +30,6 @@ server {
         alias /opt/waznexserver/WaznexServer/waznexserver/data/thumbnails/;
         expires 10d;
     }
-    location /medium {
-        alias /opt/waznexserver/WaznexServer/waznexserver/data/downsized/;
-        expires 10d;
-    }
     location /image {
         alias /opt/waznexserver/WaznexServer/waznexserver/data/images/;
         expires 10d;

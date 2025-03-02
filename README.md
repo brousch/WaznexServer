@@ -38,7 +38,7 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 # Configuration (Optional)
 
-- Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
+- Modify the image and thumbnail paths found near the top of `config.py` to reflect your file system.
 - Modify the `templates/index.html` file to change the page title.
 - Modify the `static/css/main.css` file to change the style.
 - Also be sure to disable debugging in a live deployment.

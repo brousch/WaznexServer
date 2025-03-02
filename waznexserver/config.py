@@ -9,7 +9,6 @@ SECRET_KEY = 'fdnsajflki720525325'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATA_FOLDER + '/waznexserver.db'
 SQLALCHEMY_ECHO = False
 IMAGE_FOLDER = os.path.join(DATA_FOLDER, 'images')
-DOWNSIZED_FOLDER = os.path.join(DATA_FOLDER, 'downsized')
 THUMBNAIL_FOLDER = os.path.join(DATA_FOLDER, 'thumbnails')
 ALLOWED_EXTENSIONS = {'png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF'}
 FILE_NAME_DT_FORMAT = '%Y-%m-%dT%H%M%S'

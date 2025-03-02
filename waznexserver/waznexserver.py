@@ -78,12 +78,6 @@ def show_thumbnail(filename):
     return send_from_directory(app.config['THUMBNAIL_FOLDER'], filename)
 
 
-@main.route('/medium/<filename>')
-def show_downsized(filename):
-    app.logger.info('Serving downsized image through Flask: ' + filename)
-    return send_from_directory(app.config['DOWNSIZED_FOLDER'], filename)
-
-
 @main.route('/image/<filename>')
 def show_image(filename):
     app.logger.info('Serving image through Flask: ' + filename)

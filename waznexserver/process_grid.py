@@ -15,13 +15,6 @@ from . import slice
 
 def run_basic_transforms(grid_image):
     try:
-        # Copy orig and create downsized version (1024x1024 max)
-        app.logger.info('Generating downsized image for ' + grid_image.filename)
-        shutil.copy2(grid_image.get_image_path(), grid_image.get_downsized_path())
-        downs = Image.open(grid_image.get_downsized_path())
-        downs.thumbnail((1024, 1024), Image.LANCZOS)
-        downs.save(grid_image.get_downsized_path(), "JPEG")
-
         # Copy orig and create thumbnail version
         app.logger.info('Generating thumbnail for ' + grid_image.filename)
         shutil.copy2(grid_image.get_image_path(), grid_image.get_thumbnail_path())

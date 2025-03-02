@@ -69,9 +69,6 @@ class GridItem(db.Model):
     def get_thumbnail_path(self):
         return os.path.join(app.config['THUMBNAIL_FOLDER'], self.filename)
 
-    def get_downsized_path(self):
-        return os.path.join(app.config['DOWNSIZED_FOLDER'], self.filename)
-
     def get_image_path(self):
         return os.path.join(app.config['IMAGE_FOLDER'], self.filename)
 
