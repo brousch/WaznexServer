@@ -58,4 +58,5 @@ docker_prod:
 
 .PHONY: update_deps
 update_deps:
-	uv pip compile requirements.in -o requirements.txt
+	# python version should match what Dockerfile provides
+	uv pip compile requirements.in -o requirements.txt --upgrade --python-version 3.12

@@ -1,5 +1,5 @@
 FROM ubuntu:24.04
-# 24.04 provides python 3.12
+# 24.04 provides python 3.12, keep in sync with Makefile update_deps
 
 ENV DEBIAN_FRONTEND=noninteractive
 
