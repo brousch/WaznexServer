@@ -51,11 +51,10 @@ docker_dev_debug: docker_build
 
 
 .PHONY: docker_prod
-docker_prod: docker_build
+docker_prod:
 	docker run -d --rm \
 		-v $(DATA):$(DATA) \
 		waznexserver
-	chgrp www-data $(DATA)/waznexserver.sock
 
 .PHONY: update_deps
 update_deps:

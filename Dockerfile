@@ -29,7 +29,8 @@ COPY . $CODE
 
 ENV PATH=$VENV/bin:$PATH
 
-RUN $PYTHON -m waznexserver.init_data
+# needed for gunicorn socket (other dirs created by code)
+RUN mkdir -p $CODE/waznexserver/data
 
 EXPOSE 8080
 
@@ -41,9 +42,10 @@ CMD [ \
     "--worker-tmp-dir", "/dev/shm", \
     # for nginx:
     "--bind", "unix:/opt/waznexserver/WaznexServer/waznexserver/data/waznexserver.sock", \
+    # not safe!  but lets nginx outside the container write to the file.  007 better.
+    "--umask", "0", \
     # for direct access:
     "--bind", ":8080", \
-    "--umask", "007", \
 #    "--access-logfile", "-", \
     "--capture-output", \
     "waznexserver.waznexserver:create_app()" \

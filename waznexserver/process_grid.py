@@ -148,6 +148,6 @@ def process_new(g: models.GridItem):
 if __name__ == '__main__':
     from .waznexserver import create_app
 
-    app = create_app()
+    app = create_app(initialize_data=False)
     with app.app_context():
         process_new_images()

@@ -18,7 +18,7 @@ import timeago
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 
-from . import config
+from . import config, init_data
 from . import models
 from .models import db
 from .process_grid import process_new
@@ -26,7 +26,7 @@ from .process_grid import process_new
 main = Blueprint('main', __name__)
 
 
-def create_app():
+def create_app(initialize_data=True):
     app = Flask(__name__)
     app.config.from_object(__name__)
     app.config.from_object(config)
@@ -35,6 +35,11 @@ def create_app():
     app.register_blueprint(main)
 
     models.db.init_app(app)
+
+    if initialize_data:
+        init_data.create_data_dirs()
+        with app.app_context():
+            init_data.create_database()
 
     return app
 
