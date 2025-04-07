@@ -36,6 +36,9 @@ from os import mkdir
 from os import path
 from os import sep
 from math import pi
+import logging
+
+log = logging.getLogger(__name__)
 
 
 # The size of the search space - smaller is faster and less accurate
@@ -57,19 +60,18 @@ def GetColor(im, channel):
     channels[int(channel)] = 1
     return ImageOps.autocontrast(im.convert("L", channels))
 
-
-def FindMatchingPixels(im):
+def FindMatchingPixels(im: Image):
     # Find coordinates of pixels which match the desired color above a certain threshold
     intColorThreshold = int(colorThreshold / 100.0 * 255.0)
     matchingPixels = []
-    for x in range(0, 159):
-        for y in range(0, 159):
-            if im.getpixel((x, y)) > intColorThreshold:
+    width, height = im.size
+    pixels = im.getdata()
+    for y in range(height):
+        for x in range(width):
+            if pixels[y * width + x] > intColorThreshold:
                 # found one
                 matchingPixels.append((x, y))
-
     return matchingPixels
-
 
 # Find the dots in an image
 # Returned values are each [strength, centerX, centerY]
@@ -109,14 +111,12 @@ def FindDots(im):
 
 # Transform dots back into source image space
 def TransformDots(dots, searchImage, originalImage):
-    # Transforms a single dot
-    def TransformDot(dot):
-        return (
-            int(dot[1] * originalImage.size[0] / searchImage.size[0]),
-            int(dot[2] * originalImage.size[1] / searchImage.size[1]),
-        )
-
-    return [TransformDot(dot) for dot in dots]
+    ratioX = originalImage.size[0] / searchImage.size[0]
+    ratioY = originalImage.size[1] / searchImage.size[1]
+    return [(
+                int(dot[1] * ratioX),
+                int(dot[2] * ratioY),
+            ) for dot in dots]
 
 
 # Find a box given a top-left point
@@ -399,20 +399,25 @@ def SliceSquares(imageOriginal, channel, drawDebuggingGrid, outputSize):
     return squares
 
 
-
 def main(inputFilename: str, channel: int, outputDir: str, outputSize: tuple[int, int]):
     # Create the output directory if it doesn't already exist
     if not path.exists(outputDir):
         mkdir(outputDir)
 
     # Downsize the search area to something a little more reasonable
+    log.info('slice.py main start')
     imageOriginal = GetSource(inputFilename)
+    log.info('slice.py main GetSource done')
     imageOriginal = imageOriginal.convert("RGB")
+    log.info('slice.py main convert done')
     imageDebuggingGrid = GetColor(imageOriginal, channel).convert("RGB")
+    log.info('slice.py main GetColor done')
     drawDebuggingGrid = ImageDraw.Draw(imageDebuggingGrid)
+    log.info('slice.py main ImageDraw done')
 
     # Find all squares within the image
     squares = SliceSquares(imageOriginal, channel, drawDebuggingGrid, outputSize)
+    log.info('slice.py main SliceSquares done')
 
     # Save them all out
     numSlices = 0
@@ -420,9 +425,11 @@ def main(inputFilename: str, channel: int, outputDir: str, outputSize: tuple[int
         for x in range(0, len(squares[y])):
             squares[y][x].save(outputDir + sep + "out-" + str(x) + "-" + str(y) + ".jpg")
             numSlices = numSlices + 1
+    log.info('slice.py main saves done')
 
     # Save out a debugging image
     imageDebuggingGrid.save(outputDir + sep + "lines.png")
+    log.info('slice.py main save debugging done')
     # Return the number of images saved
     return numSlices
 

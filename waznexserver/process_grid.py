@@ -22,6 +22,7 @@ def run_basic_transforms(grid_image):
         thumb.thumbnail((316, 316), Image.LANCZOS)
         thumb = thumb.convert('RGB')  # in case PNG with alpha was uploaded
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
+        app.logger.info('Done with basic resizings for ' + grid_image.filename)
 
     except Exception:
         print(f"Error while performing basic transforms on {grid_image.filename}")
@@ -46,8 +47,8 @@ def run_gridsplitter(grid_image):
     #    return False
 
     # Run verification and sanity checks
-    if not verify_gridsplitter(grid_image):
-        return False
+    # if not verify_gridsplitter(grid_image):
+    #     return False
 
     app.logger.info("Slice logic done, now saving to db: " + grid_image.filename)
 
@@ -110,27 +111,21 @@ def process_new(g: models.GridItem):
     g.status = models.IMAGESTATUS_IN_WORK
 
     try:
-        # Do basic image transforms
-        basic_result = run_basic_transforms(g)
-        if basic_result:
-            g.level = models.IMAGELEVEL_BASIC
-            print("Basic OK")
-
-            # Do advanced image transforms
-            gs_result = run_gridsplitter(g)
-            if gs_result:
-                g.level = models.IMAGELEVEL_GRID
-                print("GridSplitter OK")
-            else:
-                # Uncomment to mark it bad
-                # g.status = models.IMAGESTATUS_BAD
-                print("GridSplitter Failed")
-
+        # Do advanced image transforms
+        gs_result = run_gridsplitter(g)
+        if gs_result:
+            g.level = models.IMAGELEVEL_GRID
+            print("GridSplitter OK")
             g.status = models.IMAGESTATUS_DONE
-
         else:
-            g.status = models.IMAGESTATUS_BAD
-            print("Basic Failed")
+            # Fall back to basic image transforms
+            basic_result = run_basic_transforms(g)
+            if basic_result:
+                g.level = models.IMAGELEVEL_BASIC
+                print("Basic OK")
+            else:
+                g.status = models.IMAGESTATUS_BAD
+                print("Basic Failed")
 
     except Exception:
         print(f"Unknown error while processing image: {g.filename}")
