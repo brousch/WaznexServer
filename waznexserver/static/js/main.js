@@ -1,11 +1,11 @@
 $(document).ready(function() {
-    if ($('#message-wrapper').length > 0) {
-        setTimeout(function() {
-            $('#message-wrapper').fadeOut('slow');
-        }, 10000);
-    }
-
     $("#lnk-mark-bad").click(confirm_delete);
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        let submitBtn = document.querySelector('input[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.value = 'Uploading...';
+    });
 });
 
 function confirm_delete(event) {

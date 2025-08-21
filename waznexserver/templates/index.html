@@ -46,11 +46,11 @@
             {% endwith %}
             {% if grid %}
                 <div class="grid-image-div">
-                    {% if grid.level == 0 %}
+                    {% if grid.level == 0 %}{# "basic", not split into grid #}
                         <a href="/image/{{ grid.filename }}">
                             <img class="grid-image" src="/thumbnail/{{ grid.filename }}" />
                         </a>
-                    {% elif grid.level == 1 %}
+                    {% elif grid.level == 1 %}{# split into grid #}
                         <div class="cell-row">
                         {% for cell in grid.cells %}
                             {% if loop.changed(cell.row) %}

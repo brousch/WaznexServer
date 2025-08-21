@@ -25,7 +25,7 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 4. `make docker_dev` (or run Docker commands from Makefile manually)
 5. Ctrl-C to stop it.  Re-run it if you make file changes (no shared volumes currently)
 
-## Production on Ubuntu 18.04 64bit
+## Production on an Ubuntu server
 
 1. SSH to server as root
 2. `apt update`
@@ -34,16 +34,11 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 5. `cd /opt/waznexserver`
 6. `git clone https://github.com/brousch/WaznexServer.git`
 7. `cd WaznexServer`
-8. `make install_system_requirements`
-9. `curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python`
-10. `make bootstrap_modern_python_tools`  # lol modern
-11. `make create_venv`
-12. `make init_data`
-13. `make init_production`
+8. `make init_production`
 
-# Configuration
+# Configuration (Optional)
 
-- Modify the image, downsized, and thumbnail paths found near the top of `config.py` to reflect your file system.
+- Modify the image and thumbnail paths found near the top of `config.py` to reflect your file system.
 - Modify the `templates/index.html` file to change the page title.
 - Modify the `static/css/main.css` file to change the style.
 - Also be sure to disable debugging in a live deployment.
@@ -52,18 +47,32 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 ## Development
 
-1. `make docker_run` or run waznexserver.py in your own Python environment
-2. after uploading a file `make docker_dev_process` or process_grid.py
+1. `make docker_dev` or `make docker_dev_debug` if you need flask DEBUG mode.  Or run `python -m waznexserver.waznexserver` in your own Python environment
 
 ## Production
 
-1. SSH to server as root
-2. `cd /opt/waznexserver/WaznexServer`
-3. `make run_production`
+1. Make sure DNS is set up to point to the server
+2. SSH to server as root
+3. `cd /opt/waznexserver/WaznexServer`
 4. Set up HTTPS e.g. https://www.linode.com/docs/guides/enabling-https-using-certbot-with-nginx-on-ubuntu
-5. Set up HTTP/2 (just append `http2` to `listen`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
+    1. `snap install --classic certbot`
+    2. `ln -s /snap/bin/certbot /usr/bin/certbot`
+    3. `service nginx stop`
+    4. `certbot --nginx`
+5. Set up HTTP/2 (just append `http2` to `listen` in `/etc/nginx/sites-available/default`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
+6. `make run_production`
 
 # Changelog
+
+## Version 0.8 ##
+
+- Python 2.7 -> 3.12
+- Upgrade all python libraries
+- Docker instead of Vagrantfile and system services
+- Ubuntu 18.04 -> 24.04
+- Run splitting code immediately instead of on a cron
+- Optimize splitting calls
+- Lots of cleanup
 
 ## Version 0.7 ##
 

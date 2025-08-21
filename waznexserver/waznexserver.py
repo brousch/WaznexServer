@@ -18,14 +18,15 @@ import timeago
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 
-import config
-import models
-from models import db
+from . import config, init_data
+from . import models
+from .models import db
+from .process_grid import process_new
 
 main = Blueprint('main', __name__)
 
 
-def create_app():
+def create_app(initialize_data=True):
     app = Flask(__name__)
     app.config.from_object(__name__)
     app.config.from_object(config)
@@ -34,6 +35,11 @@ def create_app():
     app.register_blueprint(main)
 
     models.db.init_app(app)
+
+    if initialize_data:
+        init_data.create_data_dirs()
+        with app.app_context():
+            init_data.create_database()
 
     return app
 
@@ -50,7 +56,7 @@ def index():
     grid = (
         db.session.query(models.GridItem).filter_by(status=models.IMAGESTATUS_DONE).order_by(desc('upload_dt')).first()
     )
-    app.logger.info(grid)
+    app.logger.info(f'{grid=}')
     if grid is not None and grid.level == models.IMAGELEVEL_GRID:
         cell_list = (
             db.session.query(models.GridCell).filter_by(fk_grid_item=grid.id).order_by('row').order_by('col').all()
@@ -72,12 +78,6 @@ def show_thumbnail(filename):
     return send_from_directory(app.config['THUMBNAIL_FOLDER'], filename)
 
 
-@main.route('/medium/<filename>')
-def show_downsized(filename):
-    app.logger.info('Serving downsized image through Flask: ' + filename)
-    return send_from_directory(app.config['DOWNSIZED_FOLDER'], filename)
-
-
 @main.route('/image/<filename>')
 def show_image(filename):
     app.logger.info('Serving image through Flask: ' + filename)
@@ -86,7 +86,7 @@ def show_image(filename):
 
 @main.route('/sliced/<dirname>/<filename>')
 def show_sliced(dirname, filename):
-    app.logger.info('Serving cell image through Flask: ' + filename)
+    # app.logger.info('Serving cell image through Flask: ' + filename)
     return send_from_directory(app.config['SPLIT_FOLDER'], safe_join(dirname, filename))
 
 
@@ -114,18 +114,26 @@ def upload_file():
         f = request.files['file']
         if f and allowed_file(f.filename):
             # Name and save file to IMAGE folder
-            upload_ts = datetime.datetime.utcnow()
+            upload_ts = datetime.datetime.now()
             filename_name, filename_ext = os.path.splitext(f.filename)
             clean_filename = filename_name.replace('.', '') + filename_ext
             filename = upload_ts.strftime(app.config["FILE_NAME_DT_FORMAT"]) + 'F' + secure_filename(clean_filename)
+            app.logger.info('Adding image: ' + filename)
             f.save(os.path.join(app.config['IMAGE_FOLDER'], filename))
             # Initialize GridItem and add it to the list
             grid_item = models.GridItem(upload_ts, filename)
             db.session.add(grid_item)
             grid_item.status = models.IMAGESTATUS_NEW
             db.session.commit()
-            app.logger.info('Adding image: ' + filename)
-            flash('Upload successful. Refresh to see it soon', "message-upload-success")
+
+            app.logger.info('Processing image: ' + filename)
+            process_status = process_new(grid_item)
+
+            app.logger.info('Finished image: ' + filename)
+            if process_status == models.IMAGESTATUS_DONE:
+                flash('Upload successful', "message-upload-success")
+            else:
+                flash('Image processing failed.  Make sure all the blue dots are in the right places', "message-upload-fail")
         else:
             flash('Upload failed - invalid file extension.', "message-upload-fail")
     return redirect(url_for('main.index'))

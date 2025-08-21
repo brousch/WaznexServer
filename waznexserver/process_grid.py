@@ -2,33 +2,27 @@
 
 import os
 import shutil
-import subprocess
 import traceback
 
 from PIL import Image
 from flask import current_app as app  # is this misleading?
 
-import config
-import models
-from models import db
-from waznexserver import create_app
+from . import config
+from . import models
+from .models import db
+from . import slice
 
 
 def run_basic_transforms(grid_image):
     try:
-        # Copy orig and create downsized version (1024x1024 max)
-        app.logger.info('Generating downsized image for ' + grid_image.filename)
-        shutil.copy2(grid_image.get_image_path(), grid_image.get_downsized_path())
-        downs = Image.open(grid_image.get_downsized_path())
-        downs.thumbnail((1024, 1024), Image.LANCZOS)
-        downs.save(grid_image.get_downsized_path(), "JPEG")
-
         # Copy orig and create thumbnail version
         app.logger.info('Generating thumbnail for ' + grid_image.filename)
         shutil.copy2(grid_image.get_image_path(), grid_image.get_thumbnail_path())
         thumb = Image.open(grid_image.get_thumbnail_path())
         thumb.thumbnail((316, 316), Image.LANCZOS)
+        thumb = thumb.convert('RGB')  # in case PNG with alpha was uploaded
         thumb.save(grid_image.get_thumbnail_path(), "JPEG")
+        app.logger.info('Done with basic resizings for ' + grid_image.filename)
 
     except Exception:
         print(f"Error while performing basic transforms on {grid_image.filename}")
@@ -39,36 +33,13 @@ def run_basic_transforms(grid_image):
 
 
 def run_gridsplitter(grid_image):
-    # Check that configuration variables exist
-    if not config.GRIDSPLITTER_PYTHON or not config.GRIDSPLITTER_SLICER:
-        print("GridSplitter is not configured. Check your config.py.")
-        return False
-
-    # Check validity of GRIDSPLITTER_PYTHON
-    slicer_python = os.path.abspath(config.GRIDSPLITTER_PYTHON)
-    if not os.path.exists(slicer_python):
-        print('Aborting: Could not find GridSplitter Python.')
-        print(f'Tried: {slicer_python}')
-        return False
-
-    # Check validity of GRIDSPLITTER_SLICER
-    slicer = os.path.abspath(config.GRIDSPLITTER_SLICER)
-    if not os.path.exists(slicer):
-        print('Aborting: Could not find GridSplitter.')
-        print(f'Tried: {slicer}')
-        return False
-
     # Run the splitter for this image
-    ret_val = subprocess.call(
-        [
-            slicer_python,
-            slicer,
-            grid_image.get_image_path(),
-            config.GRIDSPLITTER_COLOR,
-            grid_image.get_split_path(),
-            config.GRIDSPLITTER_CELL_WIDTH,
-            config.GRIDSPLITTER_CELL_HEIGHT,
-        ]
+    app.logger.info("Starting to slice: " + grid_image.filename)
+    ret_val = slice.main(
+        grid_image.get_image_path(),
+        config.GRIDSPLITTER_COLOR,
+        grid_image.get_split_path(),
+        (config.GRIDSPLITTER_CELL_WIDTH, config.GRIDSPLITTER_CELL_HEIGHT),
     )
     # if ret_val:
     # TODO Give slicer.py return values meaningful assignments
@@ -76,8 +47,10 @@ def run_gridsplitter(grid_image):
     #    return False
 
     # Run verification and sanity checks
-    if not verify_gridsplitter(grid_image):
-        return False
+    # if not verify_gridsplitter(grid_image):
+    #     return False
+
+    app.logger.info("Slice logic done, now saving to db: " + grid_image.filename)
 
     # Build Cell Grid
     grid_dir = grid_image.get_split_path()
@@ -131,11 +104,21 @@ def process_new_images():
     new_grids = db.session.query(models.GridItem).filter_by(status=models.IMAGESTATUS_NEW).order_by('upload_dt').all()
 
     for g in new_grids:
-        db.session.add(g)
-        g.status = models.IMAGESTATUS_IN_WORK
+        process_new(g)
 
-        try:
-            # Do basic image transforms
+def process_new(g: models.GridItem):
+    db.session.add(g)
+    g.status = models.IMAGESTATUS_IN_WORK
+
+    try:
+        # Do advanced image transforms
+        gs_result = run_gridsplitter(g)
+        if gs_result:
+            g.level = models.IMAGELEVEL_GRID
+            print("GridSplitter OK")
+            g.status = models.IMAGESTATUS_DONE
+        else:
+            # Fall back to basic image transforms
             basic_result = run_basic_transforms(g)
             if basic_result:
                 g.level = models.IMAGELEVEL_BASIC
@@ -144,29 +127,19 @@ def process_new_images():
                 g.status = models.IMAGESTATUS_BAD
                 print("Basic Failed")
 
-            # Do advanced image transforms
-            if basic_result and config.ENABLE_GRIDSPLITTER:
-                gs_result = run_gridsplitter(g)
-                if gs_result:
-                    g.level = models.IMAGELEVEL_GRID
-                    print("GridSplitter OK")
-                else:
-                    # Uncomment to mark it bad
-                    # g.status = models.IMAGESTATUS_BAD
-                    print("GridSplitter Failed")
+    except Exception:
+        print(f"Unknown error while processing image: {g.filename}")
+        traceback.print_exc()
+        g.status = models.IMAGESTATUS_BAD
+    finally:
+        db.session.commit()
 
-            if basic_result:
-                g.status = models.IMAGESTATUS_DONE
-
-        except Exception:
-            print(f"Unknown error while processing image: {g.filename}")
-            traceback.print_exc()
-            g.status = models.IMAGESTATUS_BAD
-        finally:
-            db.session.commit()
+    return g.status
 
 
 if __name__ == '__main__':
-    app = create_app()
+    from .waznexserver import create_app
+
+    app = create_app(initialize_data=False)
     with app.app_context():
         process_new_images()

@@ -1,5 +1,5 @@
 FROM ubuntu:24.04
-# 24.04 provides python 3.12
+# 24.04 provides python 3.12, keep in sync with Makefile update_deps
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -12,7 +12,6 @@ ENV PYTHON=$VENV/bin/python
 RUN mkdir $BASE
 
 RUN apt-get update && apt-get install -y  \
-    nginx \
     run-one \
     python3 \
     python3-venv \
@@ -30,10 +29,24 @@ COPY . $CODE
 
 ENV PATH=$VENV/bin:$PATH
 
-RUN waznexserver/init_data.py
+# needed for gunicorn socket (other dirs created by code)
+RUN mkdir -p $CODE/waznexserver/data
 
 EXPOSE 8080
 
 # using array for CMD avoids shell intermediary, so that Ctrl-C works
-RUN chmod +x waznexserver/waznexserver.py
-CMD ["waznexserver/waznexserver.py"]
+CMD [ \
+    "gunicorn", \
+    "--workers", "2", \
+    "--threads", "4", \
+    "--worker-tmp-dir", "/dev/shm", \
+    # for nginx:
+    "--bind", "unix:/opt/waznexserver/WaznexServer/waznexserver/data/waznexserver.sock", \
+    # not safe!  but lets nginx outside the container write to the file.  007 better.
+    "--umask", "0", \
+    # for direct access:
+    "--bind", ":8080", \
+#    "--access-logfile", "-", \
+    "--capture-output", \
+    "waznexserver.waznexserver:create_app()" \
+]
