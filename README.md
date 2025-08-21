@@ -64,6 +64,16 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
 
 # Changelog
 
+## Version 0.8 ##
+
+- Python 2.7 -> 3.12
+- Upgrade all python libraries
+- Docker instead of Vagrantfile and system services
+- Ubuntu 18.04 -> 24.04
+- Run splitting code immediately instead of on a cron
+- Optimize splitting calls
+- Lots of cleanup
+
 ## Version 0.7 ##
 
 - responsive full width display
