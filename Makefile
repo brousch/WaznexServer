@@ -19,6 +19,7 @@ install_docker:
 		apt-get update && \
 		apt-get install -y docker-ce docker-ce-cli containerd.io; \
 	fi
+	service docker start
 
 .PHONY: init_production
 init_production: install_docker docker_build
