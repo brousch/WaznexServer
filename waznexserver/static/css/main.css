@@ -72,25 +72,15 @@ div.cell-row {
     display: flex;
 }
 
-div.cells a, div.cell-row a {
-    text-decoration: none;
-}
-
 img.cell {
-    display: inline-block;
     width: 100%;
-    margin: 0 -2px;
-    text-decoration: none;
+    height: 100%; /* may distort aspect ratio, but avoids black gaps between rows */
 }
 
 img.cell:hover {
     border: solid 1px black;
     margin: -3px;
-    -webkit-transform: scale(1.5);
-    -moz-transform:    scale(1.5);
-    -ms-transform:     scale(1.5);
-    -o-transform:      scale(1.5);
-    transform:         scale(1.5);
+    transform: scale(1.5);
 }
 
 div.cells {
@@ -122,7 +112,7 @@ form {
     width: 100%;
 }
 
-div.button-like {
+.button-like {
     color: rgba(16,14,15,1);
     display: inline-block;
     font-weight: bold;
@@ -141,9 +131,15 @@ div.btn-view-diagnostic {
     border: 2px solid #8B6508;
 }
 
-div.btn-mark-bad {
+form#lnk-mark-bad {
+    display: inline;
+}
+.btn-mark-bad {
     background-color: #FF6666;
     border: 2px solid #BB2222;
+    cursor: pointer;
+    line-height: 1;
+    vertical-align: bottom;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 660px) and (min-height: 540px) {
@@ -154,10 +150,7 @@ div.btn-mark-bad {
     h2 {
        font-size: 1.2em;
     }
-    div.grid-image-div {
-        zoom: 200%;
-    }
-    div.button-like {
+    .button-like {
         font-size: 1.1em;
         margin: 0 0.25em 0 0.25em;
         padding: 0.3em 1.4em 0.3em 1.4em;
@@ -168,21 +161,4 @@ div.btn-mark-bad {
     }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 980px) and (min-height: 740px) {
-    div.grid-image-div {
-        zoom: 300%;
-    }
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 1300px) and (min-height: 935px) {
-    div.grid-image-div {
-        zoom: 400%;
-    }
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-width: 1681px) and (min-height: 1140px) { 
-    div.grid-image-div {
-        zoom: 500%;
-    }
-}
 

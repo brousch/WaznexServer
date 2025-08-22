@@ -70,13 +70,12 @@
                     <a href="/image/{{ grid.filename }}">
                         <div class="button-like btn-view-size">View Large Original</div>
                     </a> 
-		    <br>
                     <a href="/sliced/{{ grid.get_split_rel_path() }}/lines.png">
                         <div class="button-like btn-view-diagnostic">Diagnostic</div>
                     </a>
-                    <a href="/mark_bad/{{ grid.id }}" id="lnk-mark-bad">
-                        <div class="button-like btn-mark-bad">Delete</div>
-                    </a>
+                    <form action="/mark_bad/{{ grid.id }}" id="lnk-mark-bad" method="POST">
+                        <button class="button-like btn-mark-bad">Delete</button>
+                    </form>
                 </div>
             {% else %}
                 <div>Image unavailable.</div>
