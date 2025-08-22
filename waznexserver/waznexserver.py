@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-
-
+import inspect
 import os
 import datetime
 
@@ -12,6 +11,7 @@ from flask import render_template
 from flask import request
 from flask import send_from_directory
 from flask import url_for
+from flask import Response
 from sqlalchemy import desc
 from sqlalchemy import or_
 import timeago
@@ -71,6 +71,15 @@ def favicon():
     filename = request.args.get('filename', 'favicon.ico')
     return send_from_directory(os.path.join(app.root_path, 'static', 'favicon'), filename)
 
+@main.route('/robots.txt')
+def robots_txt():
+    return Response(
+        inspect.cleandoc('''
+            User-agent: *
+            Disallow: /
+        '''),
+        mimetype='text/plain',
+    )
 
 @main.route('/thumbnail/<filename>')
 def show_thumbnail(filename):
@@ -146,7 +155,7 @@ def allowed_file(filename):
     return ext in app.config['ALLOWED_EXTENSIONS']
 
 
-@main.route('/mark_bad/<int:grid_item_id>', methods=['GET'])
+@main.route('/mark_bad/<int:grid_item_id>', methods=['POST'])
 def mark_bad(grid_item_id):
     try:
         bgi = db.session.query(models.GridItem).filter_by(id=grid_item_id).first()
