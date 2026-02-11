@@ -24,7 +24,7 @@ markupsafe==3.0.2
     #   werkzeug
 packaging==24.2
     # via gunicorn
-pillow==11.1.0
+pillow==12.1.1
     # via -r requirements.in
 sqlalchemy==2.0.38
     # via
