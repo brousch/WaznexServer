@@ -59,8 +59,12 @@ Waznex Server is based on the Flask microframework and can easily be hosted on a
     2. `ln -s /snap/bin/certbot /usr/bin/certbot`
     3. `service nginx stop`
     4. `certbot --nginx`
-5. Set up HTTP/2 (just append `http2` to `listen` in `/etc/nginx/sites-available/default`) e.g. https://www.linode.com/docs/guides/how-to-configure-http-2-on-nginx/
-6. `make run_production`
+5. Set up HTTP/2 & HTTP/3 https://ma.ttias.be/serving-http2-http3-nginx-2026/
+    1. in `/etc/nginx/sites-available/default` add `http2 on;` and `listen 443 quic reuseport;` in the main `server {` section
+    2. and also add `add_header Alt-Svc 'h3=":443"; ma=86400';` in `location / {` section
+    3. `service nginx restart`  (if it fails with `Address already in use` errors, check for nginx proc still running and kill them directly)
+    4. ensure any firewall rules allow 443 UDP
+7. `make run_production`
 
 # Changelog
 
